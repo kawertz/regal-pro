@@ -10,7 +10,11 @@ from curl_cffi import requests as c_requests
 # --- Page Configuration ---
 st.set_page_config(page_title="Regal Reactive Pro", layout="wide")
 
-# --- CSS for Professional Tab-Style Radio Navigation ---
+# --- Initialize Debug State ---
+if "debug_info" not in st.session_state:
+    st.session_state.debug_info = None
+
+# --- CSS for Professional Navigation ---
 st.markdown("""
     <style>
     .stRadio > div[role="radiogroup"] {
@@ -23,16 +27,76 @@ st.markdown("""
 
 # --- Constants & Headers ---
 THEATERS_FILE = "theatre_list.json"
-# Expanded headers to better match a real browser fingerprint
+# Updated to a very recent Chrome fingerprint
 BASE_REQUEST_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
     "Connection": "keep-alive",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1"
 }
+
+# --- Utility Functions ---
+
+@st.cache_data
+def load_theaters():
+    try:
+        with open(THEATERS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("theatre_list", [])
+    except Exception as e:
+        st.error(f"Error loading theater list: {e}"); return []
+
+def calculate_haversine_distance(lat1, lon1, lat2, lon2):
+    R = 3958.8 
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi, dlam = math.radians(lat2 - lat1), math.radians(lon2 - lon1)
+    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2)*math.sin(dlam/2)**2
+    return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+def fetch_data(api_url, path_name, max_retries=3):
+    headers = BASE_REQUEST_HEADERS.copy()
+    headers["Referer"] = f"https://www.regmovies.com/theatres/{path_name}"
+    
+    for attempt in range(max_retries):
+        try:
+            session = c_requests.Session()
+            # Step 1: Establish Session at root
+            session.get("https://www.regmovies.com/", headers=headers, impersonate="chrome120")
+            # Step 2: Establish Theater context
+            session.get(f"https://www.regmovies.com/theatres/{path_name}", headers=headers, impersonate="chrome120")
+            
+            # Step 3: API Call with JSON expectations
+            api_headers = headers.copy()
+            api_headers["Accept"] = "application/json, text/plain, */*"
+            response = session.get(api_url, headers=api_headers, impersonate="chrome120")
+            
+            if response.status_code == 200: 
+                st.session_state.debug_info = None # Clear debug on success
+                return response.json()
+            
+            if response.status_code == 403:
+                # Log debug info to session state so it survives the return
+                st.session_state.debug_info = {
+                    "code": response.status_code,
+                    "headers": dict(response.request.headers),
+                    "body": response.text[:5000]
+                }
+                if attempt < max_retries - 1:
+                    time.sleep(2); continue
+                else:
+                    st.error("Access Denied (403). Regal is blocking the Streamlit Cloud IP.")
+                    return None
+            response.raise_for_status()
+        except Exception as e:
+            st.session_state.debug_info = {"error": str(e)}
+            if attempt < max_retries - 1: time.sleep(1); continue
+            return None
+    return None
 
 # --- Utility Functions ---
 
@@ -197,6 +261,20 @@ st.sidebar.header("📍 Find Theater")
 search_mode = st.sidebar.selectbox("Search By", ["Zip Code", "Theater Name", "Address/City", "Theater Code"])
 results = []
 search_performed = False
+
+# --- Persistent Network Debugger at Sidebar Bottom ---
+if st.session_state.debug_info:
+    with st.sidebar.expander("🛠️ Network Debugger", expanded=True):
+        d = st.session_state.debug_info
+        if "error" in d:
+            st.error(f"Request Exception: {d['error']}")
+        else:
+            st.write(f"**Status:** {d['code']}")
+            st.write("**Sent Headers:**")
+            st.json(d['headers'])
+            st.write("**Response Body (Partial):**")
+            st.code(d['body'], language="html")
+# --- SIDEBAR END ---
 
 if search_mode == "Zip Code":
     zip_in = st.sidebar.text_input("Zip Code", placeholder="46201")
@@ -383,3 +461,4 @@ if 'raw_data' in st.session_state:
                                     report = get_conflict_report(path, missing, flat_data, params)
                                     for line in report: st.write(line)
 else: st.info("Search for a theater in the sidebar to begin.")
+
