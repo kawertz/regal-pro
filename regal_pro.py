@@ -23,9 +23,15 @@ st.markdown("""
 
 # --- Constants & Headers ---
 THEATERS_FILE = "theatre_list.json"
+# Expanded headers to better match a real browser fingerprint
 BASE_REQUEST_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
-    "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5", "Referer": "https://www.regmovies.com/",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-origin",
+    "Connection": "keep-alive",
 }
 
 # --- Utility Functions ---
@@ -48,26 +54,39 @@ def calculate_haversine_distance(lat1, lon1, lat2, lon2):
 def fetch_data(api_url, path_name, max_retries=3):
     headers = BASE_REQUEST_HEADERS.copy()
     headers["Referer"] = f"https://www.regmovies.com/theatres/{path_name}"
+    
     for attempt in range(max_retries):
         try:
             session = c_requests.Session()
+            # Step 1: Visit the landing page to establish a "real" session
+            landing_url = f"https://www.regmovies.com/theatres/{path_name}"
+            session.get(landing_url, headers=headers, impersonate="chrome120")
+            
+            # Step 2: Call the API
             response = session.get(api_url, headers=headers, impersonate="chrome120")
-            if response.status_code == 200: return response.json()
+            
+            if response.status_code == 200: 
+                return response.json()
+            
             if response.status_code == 403:
                 if attempt < max_retries - 1:
                     time.sleep(2); continue
                 else:
-                    st.error("Access Denied (403). Regal is blocking the request.")
+                    st.error("Access Denied (403). Regal is blocking the cloud IP.")
+                    with st.sidebar.expander("🛠️ Network Debugger"):
+                        st.write(f"**Status Code:** {response.status_code}")
+                        st.write("**Headers Sent:**", headers)
+                        st.code(response.text[:2000], language="html")
                     return None
             response.raise_for_status()
-        except:
+        except Exception as e:
             if attempt < max_retries - 1: time.sleep(1); continue
+            st.sidebar.error(f"Request Error: {str(e)}")
             return None
     return None
 
 def flatten_data(data):
     flat_list = []
-    # Expansion Mapping: Acronym -> ShortName
     raw_attrs_list = data.get('attributes', [])
     attr_map = {a.get('Acronym', '').strip(): a.get('ShortName', '').strip() 
                 for a in raw_attrs_list if a.get('Acronym')}
@@ -339,19 +358,13 @@ if 'raw_data' in st.session_state:
                     final_options = []
                     seen_ids = set()
                     
-                    # Add Top 2 Priority matches
                     for entry in top_priority[:2]:
                         final_options.append((entry, "Priority Match"))
                         seen_ids.add(entry['id'])
                     
-                    # REFINED LOGIC: Third slot
-                    # 1. Identify the absolute max movie count possible today
                     max_possible_count = top_count[0]['count']
-                    # 2. Identify the movie count of the #1 priority path
                     p1_count = top_priority[0]['count']
                     
-                    # If Max Count result has >= movies than Priority #1, we use it.
-                    # Otherwise, we just take Priority #3.
                     if max_possible_count >= p1_count and top_count[0]['id'] not in seen_ids:
                         final_options.append((top_count[0], "Movie Marathon (Max Count)"))
                     else:
