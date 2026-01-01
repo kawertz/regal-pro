@@ -133,28 +133,15 @@ def calculate_haversine_distance(lat1, lon1, lat2, lon2):
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
 
 def fetch_data(api_url, path_name, max_retries=3):
-
     proxies = None
-    if "api_session" not in st.session_state:
-        st.session_state.api_session = c_requests.Session()
-        st.session_state.api_session.headers.clear()
-        try:
-            st.session_state.api_session.get(
-                "https://www.regmovies.com/", 
-                headers=BASE_REQUEST_HEADERS, 
-                impersonate="chrome124", 
-                timeout=15
-            )
-            time.sleep(2)
-        except: pass                                                           
-
-    if "current_proxy_port" not in st.session_state:
-        st.session_state.current_proxy_port = 10001
 
     if IS_CLOUD:
         try:
             if "proxy_session_id" not in st.session_state:
                 st.session_state.proxy_session_id = os.urandom(4).hex()
+
+            if "current_proxy_port" not in st.session_state:
+                st.session_state.current_proxy_port = 10001
 
             p_user = st.secrets["proxy"]["username"]
             p_pass = st.secrets["proxy"]["password"]
@@ -165,9 +152,19 @@ def fetch_data(api_url, path_name, max_retries=3):
             proxies = {"http": proxy_url, "https": proxy_url}
         except KeyError:
             st.error("Proxy secrets not configured!")
-            return None
 
-
+    if "api_session" not in st.session_state:
+        st.session_state.api_session = c_requests.Session()
+        try:
+            st.session_state.api_session.get(
+                "https://www.regmovies.com/", 
+                headers=BASE_REQUEST_HEADERS, 
+                impersonate="chrome124", 
+                proxies = proxies,
+                timeout=15,
+            )
+            time.sleep(2)
+        except: pass                                                           
 
     api_headers = BASE_REQUEST_HEADERS.copy()
     api_headers.update({
