@@ -9,6 +9,8 @@ import sys
 from datetime import datetime, timedelta, timezone, time as dt_time
 from curl_cffi import requests as c_requests
 
+IS_CLOUD = os.getenv('USER') == 'appuser' or "STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION" in os.environ
+
 # --- Resource Path Resolution for Desktop Executable ---
 def get_resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for bundled EXE """
@@ -41,6 +43,34 @@ BASE_REQUEST_HEADERS = {
 
 # --- Utility Functions ---
 
+@st.cache_data(ttl=300) # Cache for 5 minutes to save proxy data
+def get_proxy_health():
+    if not IS_CLOUD:
+        return "Local Bypass", "System IP"
+    
+    try:
+        p_user = st.secrets["proxy"]["username"]
+        p_pass = st.secrets["proxy"]["password"]
+        p_addr = st.secrets["proxy"]["address"]
+        p_port = st.secrets["proxy"]["port"]
+        
+        auth_user = f"user-{p_user}-session-healthcheck"
+        proxy_url = f"http://{auth_user}:{p_pass}@{p_addr}:{p_port}"
+        proxies = {"http": proxy_url, "https": proxy_url}
+        
+        test_resp = c_requests.get(
+            "https://httpbin.org/ip", 
+            proxies=proxies, 
+            impersonate="chrome120", 
+            timeout=10
+        )
+        
+        if test_resp.status_code == 200:
+            return "Active", test_resp.json().get('origin')
+        return "Connection Error", "None"
+    except Exception:
+        return "Offline / Config Error", "None"
+
 @st.cache_data
 def load_theaters():
     try:
@@ -66,16 +96,44 @@ def calculate_haversine_distance(lat1, lon1, lat2, lon2):
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
 
 def fetch_data(api_url, path_name, max_retries=3):
+
+    proxies = None
+
+    if IS_CLOUD:
+        try:
+            p_user = st.secrets["proxy"]["username"]
+            p_pass = st.secrets["proxy"]["password"]
+            p_addr = st.secrets["proxy"]["address"]
+            p_port = st.secrets["proxy"]["port"]
+
+            if "proxy_session_id" not in st.session_state:
+                st.session_state.proxy_session_id = f"regal_pro_{os.urandom(4).hex()}"
+            
+            auth_user = f"user-{p_user}-session-{st.session_state.proxy_session_id}"
+            proxy_url = f"http://{auth_user}:{p_pass}@{p_addr}:{p_port}"
+            proxies = {"http": proxy_url, "https": proxy_url}
+
+            
+        except KeyError:
+            st.error("Proxy secrets not configured!")
+            return None
+
     headers = BASE_REQUEST_HEADERS.copy()
     headers["Referer"] = f"https://www.regmovies.com/theatres/{path_name}"
     for attempt in range(max_retries):
         try:
             session = c_requests.Session()
-            response = session.get(api_url, headers=headers, impersonate="chrome120")
-            if response.status_code == 200: return response.json()
+            response = session.get(api_url, 
+                                   headers=headers, 
+                                   impersonate="chrome120", 
+                                   proxies=proxies,
+                                   timeout=30)
+            if response.status_code == 200: 
+                return response.json()
             if response.status_code == 403:
                 if attempt < max_retries - 1:
-                    time.sleep(2); continue
+                    time.sleep(2)
+                    continue
                 else:
                     st.error("Access Denied (403). Regal is blocking the request.")
                     return None
@@ -235,6 +293,7 @@ theaters = load_theaters()
 url_t_code = st.query_params.get("theater")
 
 st.sidebar.header("📍 Find Theater")
+
 search_mode = st.sidebar.selectbox("Search By", ["Zip Code", "Theater Name", "Address/City", "Theater Code"])
 
 results = []
@@ -303,6 +362,17 @@ if selected_theater:
         if st.button("🔄 Force Refresh"): st.session_state.last_fetch_key = None
         print_mode = st.checkbox("🖨️ Print View")
         debug_mode = st.checkbox("🐞 Debug Mode", value=False, help="Show raw API responses for troubleshooting.")
+        status_label, ext_ip = get_proxy_health()
+        
+        if status_label == "Active":
+            st.success(f"🌐 **Proxy:** {status_label}")
+            st.caption(f"Masked IP: `{ext_ip.split(',')[0]}`")
+        elif status_label == "Local Bypass":
+            st.info(f"🏠 **Mode:** {status_label}")
+            st.caption("Direct Connection Active")
+        else:
+            st.error(f"⚠️ **Proxy:** {status_label}")
+            st.caption("Check Streamlit Secrets or Decodo Balance")
 
     f_key = f"{t_item['theatre_code']}_{q_date.strftime('%m-%d-%Y')}"
     if st.session_state.get('last_fetch_key') != f_key:
