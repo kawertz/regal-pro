@@ -1,13 +1,22 @@
-#v0.1 RC Stable
-
+# v1.2 RC Stable
 import streamlit as st
 import json
 import math
 import pgeocode
 import time
-import pandas as pd
-from datetime import datetime, timedelta, time as dt_time
+import os
+import sys
+from datetime import datetime, timedelta, timezone, time as dt_time
 from curl_cffi import requests as c_requests
+
+# --- Resource Path Resolution for Desktop Executable ---
+def get_resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for bundled EXE """
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Regal Reactive Pro", layout="wide")
@@ -24,7 +33,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Constants & Headers ---
-THEATERS_FILE = "theatre_list.json"
+THEATERS_FILE = get_resource_path("theatre_list.json")
 BASE_REQUEST_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
     "Accept": "*/*", "Accept-Language": "en-US,en;q=0.5", "Referer": "https://www.regmovies.com/",
@@ -39,6 +48,15 @@ def load_theaters():
             return json.load(f).get("theatre_list", [])
     except Exception as e:
         st.error(f"Error loading theater list: {e}"); return []
+
+def get_offset_from_lon(lon):
+    if lon > -82.5: return -5    # Eastern
+    if lon > -97.5: return -6    # Central
+    if lon > -114.0: return -7   # Mountain
+    if lon > -125.0: return -8   # Pacific
+    if lon < -150.0: return -10  # Hawaii
+    if lon < -140.0: return -9   # Alaska
+    return -5 # Default to EST
 
 def calculate_haversine_distance(lat1, lon1, lat2, lon2):
     R = 3958.8 
@@ -73,11 +91,10 @@ def flatten_data(data):
     attr_map = {a.get('Acronym', '').strip(): a.get('ShortName', '').strip() 
                 for a in raw_attrs_list if a.get('Acronym')}
 
-    # Capture all movie metadata focusing on OpeningDate
     movie_meta = {}
     for m in data.get('movies', []):
         open_date_raw = m.get('RegalOpeningDate')
-        dt_obj = datetime(2099, 12, 31) # Default far-future date for sorting TBDs
+        dt_obj = datetime(2099, 12, 31) 
         formatted_date = "TBD"
         
         if open_date_raw:
@@ -116,10 +133,30 @@ def flatten_data(data):
                     "master_code": m_code
                 })
                 
-    # Filter for movies NOT playing on selected date and sort by date
-    future_movies = [meta for code, meta in movie_meta.items() if code not in active_movie_codes]
-    future_movies.sort(key=lambda x: x['opening_date_dt'])
+    future_data_map = {}
+    for fs in data.get("futureShows", []):
+        m_code = fs.get('hoCode')
+        formatted_dates = []
+        
+        for d_entry in fs.get('dates', []):
+            raw_date = d_entry.get('date')
+            if raw_date:
+                try:
+                    dt_obj = datetime.strptime(raw_date[:10], "%m-%d-%Y")
+                    formatted_dates.append(dt_obj.strftime("%b %d"))
+                except:
+                    formatted_dates.append(raw_date)
+        
+        future_data_map[m_code] = formatted_dates
     
+    future_movies = []
+    for code, meta in movie_meta.items():
+        if code not in active_movie_codes:
+            meta['scheduled_dates'] = future_data_map.get(code, [])
+            future_movies.append(meta)
+    
+    future_movies.sort(key=lambda x: x['opening_date_dt'])
+
     return flat_list, movie_meta, attr_map, future_movies
 
 def get_attr_diff_html(screening_attrs, common_attrs):
@@ -135,8 +172,6 @@ def get_time_options():
     for _ in range(288): 
         times.append(start.strftime("%H:%M")); start += timedelta(minutes=5)
     return times
-
-# --- Scheduler Logic ---
 
 def generate_ics(path, theater_name):
     ics_lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Regal Pro//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH"]
@@ -202,12 +237,6 @@ url_t_code = st.query_params.get("theater")
 st.sidebar.header("📍 Find Theater")
 search_mode = st.sidebar.selectbox("Search By", ["Zip Code", "Theater Name", "Address/City", "Theater Code"])
 
-# TZ Management
-with st.sidebar.expander("🕒 Timezone Settings", expanded=False):
-    tz_offset = st.number_input("Local Offset from UTC", value=-5, step=1)
-    current_local_time = datetime.utcnow() + timedelta(hours=tz_offset)
-    st.write(f"App Local Time: **{current_local_time.strftime('%I:%M %p')}**")
-
 results = []
 search_performed = False
 
@@ -215,12 +244,18 @@ if search_mode == "Zip Code":
     zip_in = st.sidebar.text_input("Zip Code", placeholder="46201")
     radius_in = st.sidebar.slider("Radius (miles)", 5, 200, 50)
     if zip_in:
-        search_performed = True; nomi = pgeocode.Nominatim('us'); z_data = nomi.query_postal_code(zip_in)
+        search_performed = True
+        nomi = pgeocode.Nominatim('us')
+        z_data = nomi.query_postal_code(zip_in)
+
         if not math.isnan(z_data['latitude']):
+            new_offset = get_offset_from_lon(z_data['longitude'])
+            st.session_state.auto_tz_offset = new_offset
             for t in theaters:
                 d = calculate_haversine_distance(z_data['latitude'], z_data['longitude'], t['item']['latitude'], t['item']['longitude'])
                 if d <= radius_in: results.append((t, d))
             results.sort(key=lambda x: x[1])
+
 elif search_mode == "Theater Name":
     name_in = st.sidebar.text_input("Theater Name")
     if name_in: search_performed = True; results = [t for t in theaters if name_in.lower() in t['item']['name'].lower()]
@@ -230,6 +265,8 @@ elif search_mode == "Address/City":
 elif search_mode == "Theater Code":
     code_in = st.sidebar.text_input("Theater Code")
     if code_in: search_performed = True; results = [t for t in theaters if code_in == t['item']['theatre_code']]
+
+if search_performed and not results: st.sidebar.warning("No theaters found matching your criteria.")
 
 selected_theater = None
 if url_t_code and not results:
@@ -248,14 +285,36 @@ if selected_theater:
     t_item = selected_theater['item']
     st.query_params["theater"] = t_item['theatre_code']
     q_date = st.sidebar.date_input("Select Date", value=datetime.today())
-    if st.sidebar.button("🔄 Force Refresh"): st.session_state.last_fetch_key = None
-    print_mode = st.sidebar.checkbox("🖨️ Print View")
+
+    t_lon = selected_theater['item'].get('longitude')
+    if t_lon:
+        st.session_state.auto_tz_offset = get_offset_from_lon(t_lon)
+
+    with st.sidebar.expander("⚙️ Advanced Settings", expanded=False):
+        st.write("🕒 Timezone Settings")
+        local_now = datetime.now()
+        utc_now = datetime.now(timezone.utc).replace(tzinfo=None)
+        system_offset = round((local_now - utc_now).total_seconds() / 3600)
+        default_offset = st.session_state.get('auto_tz_offset', system_offset)
+        tz_offset = st.number_input("Selected Location Offset from UTC", value=int(default_offset), step=1)
+        current_local_time = (datetime.now(timezone.utc) + timedelta(hours=tz_offset)).replace(tzinfo=None)
+        st.write(f"Local Time for Selected Location: **{current_local_time.strftime('%I:%M %p')}**")
+        st.divider()
+        if st.button("🔄 Force Refresh"): st.session_state.last_fetch_key = None
+        print_mode = st.checkbox("🖨️ Print View")
+        debug_mode = st.checkbox("🐞 Debug Mode", value=False, help="Show raw API responses for troubleshooting.")
 
     f_key = f"{t_item['theatre_code']}_{q_date.strftime('%m-%d-%Y')}"
     if st.session_state.get('last_fetch_key') != f_key:
         with st.spinner("Fetching Data..."):
             data = fetch_data(f"https://www.regmovies.com/api/getShowtimes?theatres={t_item['theatre_code']}&date={q_date.strftime('%m-%d-%Y')}", t_item['path_name'])
             if data: st.session_state.raw_data, st.session_state.last_fetch_key = data, f_key
+
+if 'raw_data' in st.session_state:
+    # --- Debug Mode Output ---
+    if debug_mode:
+        with st.expander("🛠️ Raw API Debug Output", expanded=True):
+            st.json(st.session_state.raw_data)
 
 if 'raw_data' in st.session_state:
     flat_data, movie_meta, attr_map, future_movies = flatten_data(st.session_state.raw_data)
@@ -327,9 +386,13 @@ if 'raw_data' in st.session_state:
                 with cols[i % 3]:
                     with st.container(border=True):
                         st.markdown(f"**{f_movie['title']}** ({f_movie['rating']})")
-                        st.markdown(f"<small style='color:red'>Opening: {f_movie['opening_date_str']}</small>", unsafe_allow_html=True)
+                        if f_movie.get('scheduled_dates'):
+                            dates_str = ", ".join(f_movie['scheduled_dates'])
+                            st.markdown(f"<small style='color:red'>Scheduled Dates: {dates_str}</small>", unsafe_allow_html=True)
+                        else:
+                            st.markdown(f"<small style='color:red'>Opening: {f_movie['opening_date_str']}</small>", unsafe_allow_html=True)
                         st.caption(f"{f_movie['duration']} min")
-
+                        
     elif nav_tab == "🗓️ Smart Scheduler":
         st.subheader("🗓️ Smart Scheduler")
         st.info(f"Scheduling: **{t_item['name']}** on **{q_date.strftime('%A, %b %d')}**")
