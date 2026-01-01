@@ -1,4 +1,4 @@
-# 🎬 Regal Reactive Pro (RC 0.1)
+# 🎬 Regal Reactive Pro (RC 1.2)
 
 ## 🚀 Quick Start
 1. Search for your theater in the **Sidebar** using Zip, Theater Name, Street/City or 4 digit Theater Code.
@@ -23,8 +23,9 @@ The app uses a **Weighted Hybrid Algorithm**:
 	
 ## 🛠️ Technical Notes
 - **Data Source:** Fetched live from Regal API.
+- **Time Zone Sync** App sync timezone based on selected theater. User can manually set UTC offset.
+- **Debug Mode** Advanced Settings allows you to view raw API data. This is critical for identifying why a specific theater might be missing showtimes or formatting data unexpectedly.
 - **Force Refresh:** If Regal blocks the request, manually initiate data.
 
 ## 🖨️ Printing
-
 Enable **Print View** in the sidebar to remove UI elements for a clean paper schedule.
