@@ -155,19 +155,22 @@ def fetch_data(api_url, path_name, max_retries=3):
 
     if "api_session" not in st.session_state:
         st.session_state.api_session = c_requests.Session()
+        st.session_state.api_session.headers.update(BASE_REQUEST_HEADERS)
         try:
             st.session_state.api_session.get(
                 "https://www.regmovies.com/", 
                 headers=BASE_REQUEST_HEADERS, 
                 impersonate="chrome124", 
                 proxies = proxies,
-                timeout=15,
+                timeout=15
             )
+            if debug_mode: st.toast(f"Priming Status: {prime_resp.status_code}")
             time.sleep(2)
-        except: pass                                                           
+        except Exception as e:
+            if debug_mode: st.error(f"Priming Failed: {e}")                                                           
 
-    api_headers = BASE_REQUEST_HEADERS.copy()
-    api_headers.update({
+    #api_headers = BASE_REQUEST_HEADERS.copy()
+    api_headers={
         "Accept": "application/json, text/plain, */*",
         "X-Requested-With": "XMLHttpRequest", # Crucial for Regal AJAX
         "Referer": f"https://www.regmovies.com/theatres/{path_name}",
@@ -175,17 +178,15 @@ def fetch_data(api_url, path_name, max_retries=3):
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
-    })
+    }
 
     # 🔍 --- TEMPORARY DEBUG LOGGER ---
     if debug_mode:
         with st.expander("🛠️ Outgoing Request Log", expanded=False):
-            st.write(f"**Target URL:** `{api_url}`")
-            st.write(f"**Current Port:** `{st.session_state.current_proxy_port}`")
             st.json({
-                "Session_Headers": dict(st.session_state.api_session.headers),
-                "Request_Headers": api_headers,
-                "Proxy_Used": proxies if proxies else "None (Direct)"
+                "Session_Cookies": st.session_state.api_session.cookies.get_dict(),
+                "API_Headers": api_headers,
+                "Proxy": proxies["https"] if proxies else "None"
             })
     
     for attempt in range(max_retries):
