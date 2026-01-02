@@ -9,8 +9,7 @@ import sys
 from datetime import datetime, timedelta, timezone, time as dt_time
 from curl_cffi import requests as c_requests
 
-#IS_CLOUD = os.getenv('USER') == 'appuser' or "STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION" in os.environ
-IS_CLOUD = True
+IS_CLOUD = "STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION" in os.environ
 
 # --- Resource Path Resolution for Desktop Executable ---
 def get_resource_path(relative_path):
