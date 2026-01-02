@@ -1,4 +1,4 @@
-# v1.2 RC Stable
+# v1.3 RC Stable
 import streamlit as st
 import json
 import math
@@ -37,18 +37,18 @@ st.markdown("""
 
 # --- Constants & Headers ---
 THEATERS_FILE = get_resource_path("theatre_list.json")
-BASE_REQUEST_HEADERS = {
+
+AJAX_HEADERS = {
     "Host": "www.regmovies.com",
     "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"Windows"',
-    "upgrade-insecure-requests": "1",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "sec-fetch-site": "none",
-    "sec-fetch-mode": "navigate",
-    "sec-fetch-user": "?1",
-    "sec-fetch-dest": "document",
+    "Accept": "application/json, text/plain, */*",
+    "X-Requested-With": "XMLHttpRequest",
+    "sec-fetch-site": "same-origin",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-dest": "empty",
     "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "en-US,en;q=0.9",
 }
@@ -134,77 +134,55 @@ def calculate_haversine_distance(lat1, lon1, lat2, lon2):
 
 def fetch_data(api_url, path_name, max_retries=3):
     proxies = None
-
     if IS_CLOUD:
-        try:
+        if "current_proxy_port" not in st.session_state:
+            st.session_state.current_proxy_port = 10001
             if "proxy_session_id" not in st.session_state:
                 st.session_state.proxy_session_id = os.urandom(4).hex()
-
-            if "current_proxy_port" not in st.session_state:
-                st.session_state.current_proxy_port = 10001
-
-            p_user = st.secrets["proxy"]["username"]
-            p_pass = st.secrets["proxy"]["password"]
-            p_addr = st.secrets["proxy"]["address"]
-
-            auth_user = f"user-{p_user}-session-{st.session_state.proxy_session_id}"
-            proxy_url = f"http://{auth_user}:{p_pass}@{p_addr}:{st.session_state.current_proxy_port}"
-            proxies = {"http": proxy_url, "https": proxy_url}
+        try:
+            p = st.secrets["proxy"]
         except KeyError:
             st.error("Proxy secrets not configured!")
+            return None
 
-    if "api_session" not in st.session_state:
-        st.session_state.api_session = c_requests.Session()
-        st.session_state.api_session.headers.update(BASE_REQUEST_HEADERS)
-        try:
-            st.session_state.api_session.get(
-                "https://www.regmovies.com/", 
-                headers=BASE_REQUEST_HEADERS, 
-                impersonate="chrome124", 
-                proxies = proxies,
-                timeout=15
-            )
-            if debug_mode: st.toast(f"Priming Status: {prime_resp.status_code}")
-            time.sleep(2)
-        except Exception as e:
-            if debug_mode: st.error(f"Priming Failed: {e}")                                                           
-
-    #api_headers = BASE_REQUEST_HEADERS.copy()
-    api_headers={
-        "Accept": "application/json, text/plain, */*",
-        "X-Requested-With": "XMLHttpRequest", # Crucial for Regal AJAX
-        "Referer": f"https://www.regmovies.com/theatres/{path_name}",
-        "Origin": "https://www.regmovies.com",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-    }
-
-    # 🔍 --- TEMPORARY DEBUG LOGGER ---
-    if debug_mode:
-        with st.expander("🛠️ Outgoing Request Log", expanded=False):
-            st.json({
-                "Session_Cookies": st.session_state.api_session.cookies.get_dict(),
-                "API_Headers": api_headers,
-                "Proxy": proxies["https"] if proxies else "None"
-            })
-    
     for attempt in range(max_retries):
+        if IS_CLOUD:
+            auth = f"user-{p['username']}-session-{st.session_state.proxy_session_id}"
+            proxy_url = f"http://{auth}:{p['password']}@{p['address']}:{st.session_state.current_proxy_port}"
+            proxies = {"http": proxy_url, "https": proxy_url}
+
+        if "api_session" not in st.session_state:
+            st.session_state.api_session = c_requests.Session()
+            st.session_state.api_session.proxies = proxies
+
+        api_headers = AJAX_HEADERS.copy()
+        api_headers["Referer"] = f"https://www.regmovies.com/theatres/{path_name}"
+
+        if debug_mode:
+            with st.expander("🛠️ Outgoing Request Log", expanded=False):
+                st.json({
+                    #"Session_Cookies": st.session_state.api_session.cookies.get_dict(),
+                    "API_Headers": api_headers,
+                    "Proxy": proxies["https"] if proxies else "None"
+                })
+    
         try:
             response = st.session_state.api_session.get(
                 api_url, 
                 headers=api_headers, 
-                impersonate="chrome124", 
+                impersonate="chrome124",
+                proxies=proxies,
                 timeout=30
             )
             if response.status_code == 200: 
                 return response.json()
             if response.status_code == 403:
-                next_port = 10001 + (st.session_state.current_proxy_port - 10001 + 1) % 10
-                st.session_state.current_port = next_port
+                st.session_state.current_proxy_port = 10001 + (st.session_state.current_proxy_port - 10001 + 1) % 10
                 st.session_state.proxy_session_id = os.urandom(4).hex()
+                del st.session_state.api_session
+
                 if attempt < max_retries - 1:
-                    st.toast("Regal 403 detected. Retrying with longer delay...")
+                    st.toast("Regal 403 detected. Rotating IP and retrying...")
                     time.sleep(8)
                     continue
                 else:
@@ -214,7 +192,6 @@ def fetch_data(api_url, path_name, max_retries=3):
         except:
             if attempt < max_retries - 1: time.sleep(1)
             continue
-            return None
     return None
 
 def flatten_data(data):
