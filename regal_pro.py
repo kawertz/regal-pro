@@ -35,7 +35,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Constants & Headers ---
-THEATERS_FILE = get_resource_path("theatre_list.json")
+THEATERS_FILE = get_resource_path("theater_list.json")
 
 AJAX_HEADERS = {
     "Host": "www.regmovies.com",
