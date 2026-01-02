@@ -21,7 +21,7 @@ def get_resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # --- Page Configuration ---
-st.set_page_config(page_title="Regal Reactive Pro", layout="wide")
+st.set_page_config(page_title="Regal Pro", layout="wide")
 
 # --- CSS for Navigation ---
 st.markdown("""
@@ -152,8 +152,8 @@ def fetch_data(api_url, path_name, max_retries=3):
 
         if "api_session" not in st.session_state:
             st.session_state.api_session = c_requests.Session()
-            st.session_state.api_session.proxies = proxies
-
+        
+        st.session_state.api_session.proxies = proxies
         api_headers = AJAX_HEADERS.copy()
         api_headers["Referer"] = f"https://www.regmovies.com/theatres/{path_name}"
 
@@ -338,7 +338,7 @@ def get_conflict_report(path, missing_titles, all_screenings, p):
 
 # --- Main App ---
 
-st.title("🎬 Regal Reactive Pro")
+st.title("🎬 Regal Pro")
 theaters = load_theaters()
 url_t_code = st.query_params.get("theater")
 
@@ -428,7 +428,10 @@ if selected_theater:
         else:
             st.error(f"⚠️ **Proxy:** {status_label}")
             st.caption("Check Streamlit Secrets or Decodo Balance")
-
+        
+        st.page_link("https://github.com/riyazusman/regal-pro", label="Source on Github")
+    st.sidebar.link_button("Report Bug / Request Feature","https://docs.google.com/forms/d/e/1FAIpQLSce6X3DtCwDJZUjf_Cc4IbJLA7q0Nvk_Grw7lOgyqLtxYIYPQ/viewform?usp=dialog")
+    
     f_key = f"{t_item['theatre_code']}_{q_date.strftime('%m-%d-%Y')}"
     if st.session_state.get('last_fetch_key') != f_key:
         with st.spinner("Fetching Data..."):
