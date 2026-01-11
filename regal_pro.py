@@ -1,4 +1,4 @@
-# v1.3 RC Stable
+# v1.4 RC
 import streamlit as st
 import json
 import math
@@ -292,50 +292,87 @@ def generate_ics(path, theater_name):
     ics_lines.append("END:VCALENDAR")
     return "\n".join(ics_lines)
 
-def find_itineraries(current_path, remaining_titles, screenings, p, selected_date):
+def find_itineraries(current_path, remaining_titles, screenings, p, selected_date, drive_map):
     valid_paths = []
     window_start = datetime.combine(selected_date, p['start'])
     window_end = datetime.combine(selected_date, p['end'])
-    if window_end <= window_start: window_end += timedelta(days=1)
-    elif p['end'] == dt_time(23, 59): window_end += timedelta(hours=6)
+    
+    if window_end <= window_start: 
+        window_end += timedelta(days=1)
+    elif p['end'] == dt_time(23, 59): 
+        window_end += timedelta(hours=6)
 
     for title in remaining_titles:
-        potential_shows = [s for s in screenings if s['Title'] == title]
-        if p['formats']: potential_shows = [s for s in potential_shows if s['ScreenType'] in p['formats']]
+        potential_shows = [s for s in screenings if s['Title'] == title and s['TheaterCode'] in p['theaters']]
+        if p['formats']: 
+            potential_shows = [s for s in potential_shows if s['ScreenType'] in p['formats']]
+        
         for s in potential_shows:
             show_start = s['Showtime']
             show_end = show_start + timedelta(minutes=s['Duration'])
-            if show_start < window_start or show_end > window_end: continue
+            if show_start < window_start or show_end > window_end: 
+                continue
+            
             if current_path:
                 prev = current_path[-1]
                 prev_end = prev['Showtime'] + timedelta(minutes=prev['Duration'])
-                if p['fudge']: prev_end -= timedelta(minutes=5)
+                if p['fudge']: 
+                    prev_end -= timedelta(minutes=5)
+                
+                # ENFORCE TRAVEL BUFFER: Identify time regardless of direction
+                drive_time = 0
+                if s['TheaterCode'] != prev['TheaterCode']:
+                    # Use primary_code passed in params to find the 'nearby' theater
+                    nb_code = s['TheaterCode'] if s['TheaterCode'] != p['primary_code'] else prev['TheaterCode']
+                    drive_time = drive_map.get(nb_code, {}).get('time', 20)
+                
                 req_buffer = p['long_buffer'] if p['break_after'] == len(current_path) else p['buffer']
-                if p['unlimited']:
-                    if show_start < prev['Showtime'] + timedelta(minutes=91): continue
-                if show_start < prev_end + timedelta(minutes=req_buffer): continue
-                if (show_start - prev_end).total_seconds()/60 > p['gap_cap']: continue
+                total_min_gap = drive_time + req_buffer
+                
+                if p['unlimited'] and show_start < prev['Showtime'] + timedelta(minutes=91): 
+                    continue
+                if show_start < prev_end + timedelta(minutes=total_min_gap): 
+                    continue
+                if (show_start - prev_end).total_seconds()/60 > p['gap_cap']: 
+                    continue
+
             new_rem = [t for t in remaining_titles if t != title]
-            sub = find_itineraries(current_path + [s], new_rem, screenings, p, selected_date)
-            if not sub: valid_paths.append(current_path + [s])
-            else: valid_paths.extend(sub)
+            sub = find_itineraries(current_path + [s], new_rem, screenings, p, selected_date, drive_map)
+            if not sub: 
+                valid_paths.append(current_path + [s])
+            else: 
+                valid_paths.extend(sub)
     return valid_paths
 
 def get_conflict_report(path, missing_titles, all_screenings, p):
     conflicts = []
     for m_title in missing_titles:
-        m_shows = [s for s in all_screenings if s['Title'] == m_title]
-        if p['formats']: m_shows = [s for s in m_shows if s['ScreenType'] in p['formats']]
+        # Filter all screenings for the missing title that match preferred theaters and formats
+        m_shows = [s for s in all_screenings if s['Title'] == m_title and s['TheaterCode'] in p['theaters']]
+        if p['formats']: 
+            m_shows = [s for s in m_shows if s['ScreenType'] in p['formats']]
+        
         reasons = []
-        if not m_shows: reasons.append("No screenings match your selected formats.")
+        if not m_shows: 
+            reasons.append("No screenings match your selected formats or preferred theaters.")
         else:
+            # Check for overlaps with already scheduled movies
             for ms in m_shows:
+                ms_start = ms['Showtime']
+                ms_end = ms_start + timedelta(minutes=ms['Duration'])
+                
                 for ps in path:
-                    ps_end = ps['Showtime'] + timedelta(minutes=ps['Duration'])
-                    if not (ms['Showtime'] + timedelta(minutes=ms['Duration']) <= ps['Showtime'] or ms['Showtime'] >= ps_end):
-                        reasons.append(f"The {ms['Showtime'].strftime('%I:%M %p')} show overlaps with **{ps['Title']}**.")
+                    ps_start = ps['Showtime']
+                    ps_end = ps_start + timedelta(minutes=ps['Duration'])
+                    
+                    # Logic for time overlap check
+                    if not (ms_end <= ps_start or ms_start >= ps_end):
+                        reasons.append(f"The {ms_start.strftime('%I:%M %p')} show overlaps with **{ps['Title']}**.")
                         break
-        conflicts.append(f"❌ **{m_title}**: {reasons[0] if reasons else 'No screenings fit your window.'}")
+        
+        # Consolidate and display reasoning
+        detail = reasons[0] if reasons else "No screenings fit your specified time window or buffer requirements."
+        conflicts.append(f"❌ **{m_title}**: {detail}")
     return conflicts
 
 # --- Main App ---
@@ -570,7 +607,7 @@ if 'raw_data' in st.session_state:
                             delta_attribs = get_attr_diff(s['Attributes'], t_common)
                             t_str = s['Showtime'].strftime('%I:%M %p')
                             if is_past:
-                                final_time = f"~~{t_str}~~" 
+                                final_time = f"<del>{t_str}</del>" 
                                 meta_text = f"  <small style='color:grey'><del>(Audi {s['Auditorium']}) {delta_attribs}</del></small>"
                             else:
                                 final_time = f"{t_str}" 
@@ -707,11 +744,11 @@ if 'raw_data' in st.session_state:
                             
                             is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
                             if is_past:
-                                final_time = f"~~{t_str}~~" 
-                                meta_text = f" <small style='color:grey'><del>(Audi {s['Auditorium']}{delta_attribs})<del></small>"
+                                final_time = f"<del>{t_str}</del>" 
+                                meta_text = f" <small style='color:grey'><del>(Audi {s['Auditorium']}) {delta_attribs}</del></small>"
                             else:    
                                 final_time = f"**{t_str}**"
-                                meta_text = f" <small style='color:grey'>(Audi {s['Auditorium']}{delta_attribs})</small>"
+                                meta_text = f" <small style='color:grey'>(Audi {s['Auditorium']}) {delta_attribs}</small>"
 
                             row_items.append(f"{final_time}{meta_text}")
                         
@@ -720,13 +757,38 @@ if 'raw_data' in st.session_state:
                         
     elif nav_tab == "🗓️ Smart Scheduler":
         st.subheader("🗓️ Smart Scheduler")
-        st.info(f"Scheduling: **{t_item['name']}** on **{q_date.strftime('%A, %b %d')}**")
+        st.info(f"Scheduling Cluster: **{t_item['name']}** on **{q_date.strftime('%A, %b %d')}**")
+
+        # 1. Initialize Cluster Theater Data
+        cluster_theaters = {t_item['theatre_code']: t_item['name']}
+        # Primary theater is our reference (0 miles, 0 mins)
+        primary_code = t_item['theatre_code']
+        drive_map = {t_item['theatre_code']: {'time': 0, 'dist': 0}}
+        master_name_map = {t['item']['theatre_code']: t['item']['name'] for t in theaters}
+
+        if 'nearby_theaters' in t_item:
+            for nt in t_item['nearby_theaters']:
+                n_code = nt['code']
+                n_name = master_name_map.get(n_code, nt.get('name', f"Theater {n_code}"))
+                cluster_theaters[n_code] = n_name
+                # Store the travel cost to reach this theater from the primary one
+                drive_map[n_code] = {
+                    'time': nt.get('drive_min', 20),
+                    'dist': nt.get('road_miles', 0)
+                }
+
         with st.expander("⚙️ Parameters", expanded=True):
             r1_c1, r1_c2 = st.columns(2)
             with r1_c1:
-                target_movies = st.multiselect("Select Movies (Ordered by Preference)", options=sorted(list(set(s['Title'] for s in flat_data))))
+                target_movies = st.multiselect("Select Movies (Ordered by Preference)", options=sorted(list(set(s['Title'] for s in all_flat_data))))
             with r1_c2:
-                available_formats = sorted(list(set(s['ScreenType'] for s in flat_data if s['Title'] in target_movies))) if target_movies else sorted(list(set(s['ScreenType'] for s in flat_data)))
+                t_opts = list(cluster_theaters.keys())
+                target_theaters = st.multiselect("Select Theaters (Ordered by Preference)", 
+                                                 options=t_opts, 
+                                                 default=[t_item['theatre_code']],
+                                                 format_func=lambda x: cluster_theaters.get(x))                
+
+                available_formats = sorted(list(set(s['ScreenType'] for s in all_flat_data if s['Title'] in target_movies))) if target_movies else sorted(list(set(s['ScreenType'] for s in all_flat_data)))
                 target_formats = st.multiselect("Preferred Formats", options=available_formats, placeholder="All")
             
             time_opts = ["Any Time"] + get_time_options()
@@ -748,48 +810,115 @@ if 'raw_data' in st.session_state:
         
         if st.button("🚀 Generate Itineraries"):
             if len(target_movies) < 2:
-                st.error("Please select at least 2 movies to generate a schedule.")
+                st.error("Please select at least 2 movies.")
             else:
-                params = {'start': t_start, 'end': t_end, 'buffer': buff, 'gap_cap': g_cap, 'unlimited': unlimited, 'fudge': fudge, 'break_after': b_after, 'long_buffer': b_val, 'formats': target_formats}
-                paths = find_itineraries([], target_movies, flat_data, params, q_date)
+                params = {
+                    'start': t_start, 'end': t_end, 'buffer': buff, 'gap_cap': g_cap, 
+                    'unlimited': unlimited, 'fudge': fudge, 'break_after': b_after, 
+                    'long_buffer': b_val, 'formats': target_formats, 'theaters': target_theaters,
+                    'primary_code': primary_code # Pass for travel enforcement
+                }                
+                paths = find_itineraries([], target_movies, all_flat_data, params, q_date, drive_map)
                 
-                if not paths: st.error("No valid schedules found.")
+                if not paths: 
+                    st.error("No valid schedules found.")
                 else:
-                    weights = {title: 10**(len(target_movies) - 1 - i) for i, title in enumerate(target_movies)}
                     processed_paths = []
-                    for p in paths:
-                        p_titles = [s['Title'] for s in p]
-                        priority_score = sum(weights.get(t, 0) for t in p_titles)
-                        gap_time = sum([(p[i+1]['Showtime'] - (p[i]['Showtime'] + timedelta(minutes=p[i]['Duration']))).total_seconds()/60 for i in range(len(p)-1)])
-                        processed_paths.append({
-                            'path': p, 'priority_score': priority_score, 'count': len(p), 'gap_time': gap_time, 
-                            'id': "-".join([f"{s['master_code']}{s['Showtime'].timestamp()}" for s in p])
-                        })
-                    
-                    top_priority = sorted(processed_paths, key=lambda x: (-x['priority_score'], x['gap_time']))
-                    top_count = sorted(processed_paths, key=lambda x: (-x['count'], x['gap_time']))
-                    
-                    final_options = []
-                    seen_ids = set()
-                    for entry in top_priority[:2]:
-                        final_options.append((entry, "Priority Match"))
-                        seen_ids.add(entry['id'])
-                    max_possible_count = top_count[0]['count']
-                    p1_count = top_priority[0]['count']
-                    if max_possible_count >= p1_count and top_count[0]['id'] not in seen_ids:
-                        final_options.append((top_count[0], "Movie Marathon (Max Count)"))
-                    else:
-                        if len(top_priority) > 2: final_options.append((top_priority[2], "Priority Match"))
+                    for p_raw in paths:
+                        movie_count, hops, total_miles, total_gap = len(p_raw), 0, 0, 0
+                        
+                        for i in range(len(p_raw)-1):
+                            curr, nxt = p_raw[i], p_raw[i+1]
+                            curr_end = curr['Showtime'] + timedelta(minutes=curr['Duration'])
+                            total_gap += int((nxt['Showtime'] - curr_end).total_seconds() / 60)
+                            
+                            if curr['TheaterCode'] != nxt['TheaterCode']:
+                                hops += 1
+                                # ACCUMULATE MILES: Find the non-primary theater's distance
+                                nb_code = nxt['TheaterCode'] if nxt['TheaterCode'] != primary_code else curr['TheaterCode']
+                                total_miles += drive_map.get(nb_code, {}).get('dist', 0)
 
-                    for i, (entry, label) in enumerate(final_options):
-                        path, count = entry['path'], entry['count']
+                        f_score = (movie_count * 100) - (hops * 40) - (total_miles * 2)
+                        p_id = "-".join([f"{s['master_code']}{s['Showtime'].timestamp()}" for s in p_raw])
+
+                        processed_paths.append({
+                            'path': p_raw, 'count': movie_count, 'hops': hops, 
+                            'miles': total_miles, 'score': f_score, 'total_gap': total_gap, 'id': p_id
+                        })
+
+                    final_selections = []
+                    seen_ids = set()
+
+                    def add_selection(entry, label):
+                        if entry and entry['id'] not in seen_ids:
+                            final_selections.append((entry, label))
+                            seen_ids.add(entry['id'])
+                            return True
+                        return False
+
+                    # Ranking Pool using total_gap as tie-breaker for efficiency
+                    ranked_pool = sorted(processed_paths, key=lambda x: (-x['score'], -x['count'], x['total_gap']))
+
+                    # 1. Absolute Marathon (Volume + Compactness)
+                    abs_mar = sorted(processed_paths, key=lambda x: (-x['count'], x['hops'], x['miles'], x['total_gap']))[0]
+                    add_selection(abs_mar, "Absolute Marathon (Max Movies)")
+
+                    # 2. Smart Marathon
+                    add_selection(ranked_pool[0], "Smart Marathon (Best Efficiency)")
+
+                    # 3. Single-Theater Max
+                    st_p = sorted([pp for pp in processed_paths if pp['hops'] == 0], key=lambda x: (-x['count'], x['total_gap']))
+                    if st_p: add_selection(st_p[0], "Single-Theater Max (Zero Hops)")
+
+                    # 4. Priority Movie Match
+                    if len(target_movies) >= 2:
+                        top_two = set(target_movies[:2])
+                        p_mov = sorted([pp for pp in processed_paths if top_two.issubset(set(s['Title'] for s in pp['path']))], key=lambda x: (-x['score'], x['total_gap']))
+                        if p_mov: add_selection(p_mov[0], "Priority Movie Match (#1 & #2)")
+
+                    # 5. Priority Theater Match
+                    if target_theaters:
+                        top_t = target_theaters[0]
+                        p_t = sorted([pp for pp in processed_paths if all(s['TheaterCode'] == top_t for s in pp['path'])], key=lambda x: (-x['count'], x['total_gap']))
+                        if p_t: add_selection(p_t[0], "Priority Theater Match (Home Base)")
+                            
+                    for entry in ranked_pool:
+                        if len(final_selections) >= 5: break
+                        add_selection(entry, "Alternative Optimized Path")
+
+                    # Final Rendering Loop
+                    for i, (entry, label) in enumerate(final_selections[:5]):
+                        path, count, hops, miles = entry['path'], entry['count'], entry['hops'], entry['miles']
                         with st.container(border=True):
-                            st.markdown(f"#### Option {i+1}: {count} Movies — <small style='color:grey'>{label}</small>", unsafe_allow_html=True)
-                            for s in path: st.write(f"🕒 **{s['Showtime'].strftime('%I:%M %p')} - {(s['Showtime'] + timedelta(minutes=s['Duration'])).strftime('%I:%M %p')}**: {s['Title']} (**{s['ScreenType']}**)")
-                            st.download_button("📅 Download ICS", generate_ics(path, t_item['name']), file_name=f"movies_{q_date}.ics", mime="text/calendar", key=f"dl_{i}")
+                            st.markdown(f"#### Option {i+1}: {count} Movies")
+                            st.markdown(f"🏆 **{label}** | 🚗 {hops} Hops ({round(miles, 1)} mi travel)", unsafe_allow_html=True)
+                            
+                            for idx, s in enumerate(path):
+                                t_name = cluster_theaters.get(s['TheaterCode'], "Unknown")
+                                start_t, end_t = s['Showtime'], s['Showtime'] + timedelta(minutes=s['Duration'])
+                                st.write(f"🕒 **{start_t.strftime('%I:%M %p')} - {end_t.strftime('%I:%M %p')}**: {s['Title']} (**{s['ScreenType']}**) @{t_name}")
+                                
+                                if idx < len(path) - 1:
+                                    next_s = path[idx + 1]
+                                    gap = int((next_s['Showtime'] - end_t).total_seconds() / 60)
+                                    drive_info = ""
+                                    if s['TheaterCode'] != next_s['TheaterCode']:
+                                        nb_code = next_s['TheaterCode'] if next_s['TheaterCode'] != primary_code else s['TheaterCode']
+                                        d_stats = drive_map.get(nb_code, {'time': 20, 'dist': 0})
+                                        drive_info = f". Drive: {d_stats['time']} mins ({d_stats['dist']} mi)"
+                                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;<small style='color:grey'>Gap: {gap} mins{drive_info}</small>", unsafe_allow_html=True)
+                            
+                            st.divider()
+                            # FIXED: Unique key using loop index and entry ID to prevent DuplicateElementKey error
+                            st.download_button("📅 Download ICS", 
+                                             generate_ics(path, t_item['name']), 
+                                             file_name=f"movies_{q_date}.ics", 
+                                             mime="text/calendar", 
+                                             key=f"dl_{i}_{entry['id']}")
+                            
                             if count < len(target_movies):
                                 missing = [t for t in target_movies if t not in [s['Title'] for s in path]]
                                 with st.expander("⚠️ Why were some movies left out?"):
-                                    report = get_conflict_report(path, missing, flat_data, params)
+                                    report = get_conflict_report(path, missing, all_flat_data, params)
                                     for line in report: st.write(line)
 else: st.info("Search for a theater in the sidebar to begin.")
