@@ -27,7 +27,10 @@
                         "road_miles": 9.8,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -41,7 +44,10 @@
                 "latitude": 39.305,
                 "longitude": -81.5506,
                 "zip": "26105",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -55,7 +61,10 @@
                 "latitude": 35.0376,
                 "longitude": -85.1563,
                 "zip": "37421",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -68,8 +77,11 @@
                 "address": "2221 N. Jackson Street",
                 "latitude": 35.3915,
                 "longitude": -86.2455,
-                "zip": "37360",
-                "nearby_theaters": []
+                "zip": "37388",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -144,7 +156,10 @@
                         "road_miles": 52.5,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -157,7 +172,7 @@
                 "address": "2222 East 146th Street",
                 "latitude": 40.0003,
                 "longitude": -86.1212,
-                "zip": "46032",
+                "zip": "46033",
                 "nearby_theaters": [
                     {
                         "code": "1523",
@@ -179,7 +194,10 @@
                         "road_miles": 33.5,
                         "drive_min": 39
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -213,58 +231,11 @@
                         "code": "0164",
                         "road_miles": 44.5,
                         "drive_min": 48
-                    },
-                    {
-                        "code": "0238",
-                        "road_miles": 50.3,
-                        "drive_min": 55
                     }
-                ]
-            }
-        },
-        {
-            "item": {
-                "state": "VA",
-                "city": "Newport News",
-                "theatre_code": "0161",
-                "path_name": "regal-kiln-creek-0161",
-                "name": "Regal Kiln Creek",
-                "address": "100 Regal Way",
-                "latitude": 37.1106,
-                "longitude": -76.4735,
-                "zip": "23602",
-                "nearby_theaters": [
-                    {
-                        "code": "1866",
-                        "road_miles": 23.2,
-                        "drive_min": 25
-                    },
-                    {
-                        "code": "1868",
-                        "road_miles": 22.5,
-                        "drive_min": 26
-                    },
-                    {
-                        "code": "0365",
-                        "road_miles": 26.3,
-                        "drive_min": 38
-                    },
-                    {
-                        "code": "0718",
-                        "road_miles": 33.6,
-                        "drive_min": 38
-                    },
-                    {
-                        "code": "0280",
-                        "road_miles": 35.4,
-                        "drive_min": 39
-                    },
-                    {
-                        "code": "0235",
-                        "road_miles": 44.9,
-                        "drive_min": 53
-                    }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -279,11 +250,6 @@
                 "longitude": -81.4405,
                 "zip": "44236",
                 "nearby_theaters": [
-                    {
-                        "code": "0238",
-                        "road_miles": 8.5,
-                        "drive_min": 20
-                    },
                     {
                         "code": "0381",
                         "road_miles": 35.4,
@@ -319,7 +285,10 @@
                         "road_miles": 54.7,
                         "drive_min": 65
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -332,7 +301,7 @@
                 "address": "10091 Jeb Stuart Parkway",
                 "latitude": 37.665,
                 "longitude": -77.4585,
-                "zip": "23059",
+                "zip": "23060",
                 "nearby_theaters": [
                     {
                         "code": "0730",
@@ -369,7 +338,10 @@
                         "road_miles": 56.0,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -469,7 +441,10 @@
                         "road_miles": 56.0,
                         "drive_min": 68
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -483,7 +458,10 @@
                 "latitude": 41.1325,
                 "longitude": -85.1415,
                 "zip": "46825",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -496,17 +474,12 @@
                 "address": "7420 South Ave",
                 "latitude": 41.0103,
                 "longitude": -80.6345,
-                "zip": "44514",
+                "zip": "44512",
                 "nearby_theaters": [
                     {
                         "code": "0183",
                         "road_miles": 20.6,
                         "drive_min": 29
-                    },
-                    {
-                        "code": "0238",
-                        "road_miles": 53.8,
-                        "drive_min": 57
                     },
                     {
                         "code": "0164",
@@ -518,7 +491,10 @@
                         "road_miles": 60.8,
                         "drive_min": 79
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -539,11 +515,6 @@
                         "drive_min": 29
                     },
                     {
-                        "code": "0238",
-                        "road_miles": 46.3,
-                        "drive_min": 56
-                    },
-                    {
                         "code": "0164",
                         "road_miles": 47.7,
                         "drive_min": 58
@@ -558,7 +529,10 @@
                         "road_miles": 66.4,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -571,7 +545,7 @@
                 "address": "10400 East US 36, STE 800",
                 "latitude": 39.7662,
                 "longitude": -86.3391,
-                "zip": "46213",
+                "zip": "46123",
                 "nearby_theaters": [
                     {
                         "code": "1794",
@@ -593,7 +567,10 @@
                         "road_miles": 39.0,
                         "drive_min": 47
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -703,7 +680,10 @@
                         "road_miles": 64.8,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -728,7 +708,10 @@
                         "road_miles": 58.6,
                         "drive_min": 64
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -742,7 +725,10 @@
                 "latitude": 36.2203,
                 "longitude": -81.6592,
                 "zip": "28607",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -777,7 +763,10 @@
                         "road_miles": 45.0,
                         "drive_min": 42
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -790,7 +779,7 @@
                 "address": "4777 W Chester Pike",
                 "latitude": 39.9753,
                 "longitude": -75.4405,
-                "zip": "19008",
+                "zip": "19073",
                 "nearby_theaters": [
                     {
                         "code": "1329",
@@ -872,7 +861,10 @@
                         "road_miles": 53.5,
                         "drive_min": 78
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -972,7 +964,10 @@
                         "road_miles": 60.9,
                         "drive_min": 68
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -993,11 +988,6 @@
                         "drive_min": 22
                     },
                     {
-                        "code": "0280",
-                        "road_miles": 15.8,
-                        "drive_min": 27
-                    },
-                    {
                         "code": "0365",
                         "road_miles": 19.0,
                         "drive_min": 31
@@ -1006,68 +996,11 @@
                         "code": "1866",
                         "road_miles": 30.4,
                         "drive_min": 42
-                    },
-                    {
-                        "code": "0161",
-                        "road_miles": 44.9,
-                        "drive_min": 53
                     }
-                ]
-            }
-        },
-        {
-            "item": {
-                "state": "OH",
-                "city": "Akron",
-                "theatre_code": "0238",
-                "path_name": "regal-independence-0238",
-                "name": "Regal Independence",
-                "address": "1210 Independence Ave.",
-                "latitude": 41.1109,
-                "longitude": -81.4708,
-                "zip": "44310",
-                "nearby_theaters": [
-                    {
-                        "code": "0164",
-                        "road_miles": 8.5,
-                        "drive_min": 20
-                    },
-                    {
-                        "code": "1512",
-                        "road_miles": 24.4,
-                        "drive_min": 38
-                    },
-                    {
-                        "code": "0707",
-                        "road_miles": 29.8,
-                        "drive_min": 42
-                    },
-                    {
-                        "code": "0381",
-                        "road_miles": 40.5,
-                        "drive_min": 46
-                    },
-                    {
-                        "code": "0155",
-                        "road_miles": 50.3,
-                        "drive_min": 55
-                    },
-                    {
-                        "code": "0183",
-                        "road_miles": 46.3,
-                        "drive_min": 56
-                    },
-                    {
-                        "code": "0755",
-                        "road_miles": 51.7,
-                        "drive_min": 56
-                    },
-                    {
-                        "code": "0175",
-                        "road_miles": 53.8,
-                        "drive_min": 57
-                    }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1080,8 +1013,11 @@
                 "address": "9525 Phillips Highway",
                 "latitude": 30.1927,
                 "longitude": -81.5647,
-                "zip": "32207",
-                "nearby_theaters": []
+                "zip": "32256",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -1161,7 +1097,10 @@
                         "road_miles": 55.4,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1174,7 +1113,7 @@
                 "address": "300 East Gate Drive",
                 "latitude": 33.5042,
                 "longitude": -81.7173,
-                "zip": "29803",
+                "zip": "29802",
                 "nearby_theaters": [
                     {
                         "code": "0724",
@@ -1186,52 +1125,10 @@
                         "road_miles": 47.9,
                         "drive_min": 60
                     }
-                ]
-            }
-        },
-        {
-            "item": {
-                "state": "VA",
-                "city": "Chesapeake",
-                "theatre_code": "0280",
-                "path_name": "regal-greenbrier-0280",
-                "name": "Regal Greenbrier",
-                "address": "600 Jarman Road",
-                "latitude": 36.7777,
-                "longitude": -76.2364,
-                "zip": "23320",
-                "nearby_theaters": [
-                    {
-                        "code": "0718",
-                        "road_miles": 10.5,
-                        "drive_min": 15
-                    },
-                    {
-                        "code": "0365",
-                        "road_miles": 10.4,
-                        "drive_min": 16
-                    },
-                    {
-                        "code": "1866",
-                        "road_miles": 20.5,
-                        "drive_min": 24
-                    },
-                    {
-                        "code": "0235",
-                        "road_miles": 15.8,
-                        "drive_min": 27
-                    },
-                    {
-                        "code": "0161",
-                        "road_miles": 35.4,
-                        "drive_min": 39
-                    },
-                    {
-                        "code": "1868",
-                        "road_miles": 55.1,
-                        "drive_min": 60
-                    }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -1261,7 +1158,10 @@
                         "road_miles": 12.9,
                         "drive_min": 20
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1351,7 +1251,10 @@
                         "road_miles": 72.6,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1466,7 +1369,10 @@
                         "road_miles": 68.3,
                         "drive_min": 80
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -1536,7 +1442,10 @@
                         "road_miles": 44.9,
                         "drive_min": 111
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1549,7 +1458,7 @@
                 "address": "20751 State Route 410 E",
                 "latitude": 47.1684,
                 "longitude": -122.1516,
-                "zip": "98321",
+                "zip": "98390",
                 "nearby_theaters": [
                     {
                         "code": "0885",
@@ -1621,7 +1530,10 @@
                         "road_miles": 62.7,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1711,7 +1623,10 @@
                         "road_miles": 53.4,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1757,16 +1672,14 @@
                         "drive_min": 48
                     },
                     {
-                        "code": "0482",
-                        "road_miles": 47.6,
-                        "drive_min": 58
-                    },
-                    {
                         "code": "1149",
                         "road_miles": 53.4,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1779,7 +1692,7 @@
                 "address": "2001 Elmwood Avenue",
                 "latitude": 42.952,
                 "longitude": -78.8782,
-                "zip": "14216",
+                "zip": "14207",
                 "nearby_theaters": [
                     {
                         "code": "0675",
@@ -1796,7 +1709,10 @@
                         "road_miles": 18.4,
                         "drive_min": 23
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1841,7 +1757,10 @@
                         "road_miles": 54.1,
                         "drive_min": 58
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -1854,7 +1773,7 @@
                 "address": "1003 State Road 7",
                 "latitude": 26.6943,
                 "longitude": -80.2019,
-                "zip": "33414",
+                "zip": "33411",
                 "nearby_theaters": [
                     {
                         "code": "0339",
@@ -1886,7 +1805,10 @@
                         "road_miles": 60.4,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1899,7 +1821,7 @@
                 "address": "9700 Medlock Bridge Rd, St 170",
                 "latitude": 34.018,
                 "longitude": -84.1902,
-                "zip": "30022",
+                "zip": "30097",
                 "nearby_theaters": [
                     {
                         "code": "1694",
@@ -1951,7 +1873,10 @@
                         "road_miles": 48.1,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -1964,7 +1889,7 @@
                 "address": "13317 Meridan St. East",
                 "latitude": 47.1357,
                 "longitude": -122.2917,
-                "zip": "98343",
+                "zip": "98373",
                 "nearby_theaters": [
                     {
                         "code": "0885",
@@ -2036,7 +1961,10 @@
                         "road_miles": 60.8,
                         "drive_min": 68
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -2091,7 +2019,10 @@
                         "road_miles": 53.9,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -2104,7 +2035,7 @@
                 "address": "9741 Chapman Avenue",
                 "latitude": 33.7886,
                 "longitude": -117.9626,
-                "zip": "92840",
+                "zip": "92841",
                 "nearby_theaters": [
                     {
                         "code": "1042",
@@ -2246,7 +2177,10 @@
                         "road_miles": 40.9,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -2259,13 +2193,8 @@
                 "address": "300 Monticello Avenue, Ste 330",
                 "latitude": 36.85,
                 "longitude": -76.29,
-                "zip": "23514",
+                "zip": "23510",
                 "nearby_theaters": [
-                    {
-                        "code": "0280",
-                        "road_miles": 10.4,
-                        "drive_min": 16
-                    },
                     {
                         "code": "0718",
                         "road_miles": 10.2,
@@ -2282,16 +2211,14 @@
                         "drive_min": 31
                     },
                     {
-                        "code": "0161",
-                        "road_miles": 26.3,
-                        "drive_min": 38
-                    },
-                    {
                         "code": "1868",
                         "road_miles": 54.1,
                         "drive_min": 59
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -2411,7 +2338,10 @@
                         "road_miles": 66.7,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -2476,7 +2406,10 @@
                         "road_miles": 80.8,
                         "drive_min": 88
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -2571,7 +2504,10 @@
                         "road_miles": 69.4,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -2616,7 +2552,10 @@
                         "road_miles": 55.9,
                         "drive_min": 52
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -2642,11 +2581,6 @@
                         "drive_min": 41
                     },
                     {
-                        "code": "0238",
-                        "road_miles": 40.5,
-                        "drive_min": 46
-                    },
-                    {
                         "code": "0755",
                         "road_miles": 43.9,
                         "drive_min": 50
@@ -2661,7 +2595,10 @@
                         "road_miles": 64.0,
                         "drive_min": 73
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -2696,7 +2633,10 @@
                         "road_miles": 33.8,
                         "drive_min": 41
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -2781,7 +2721,10 @@
                         "road_miles": 56.0,
                         "drive_min": 68
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -2836,7 +2779,10 @@
                         "road_miles": 52.1,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -2856,7 +2802,10 @@
                         "road_miles": 45.1,
                         "drive_min": 51
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -2946,7 +2895,10 @@
                         "road_miles": 58.1,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3006,7 +2958,10 @@
                         "road_miles": 58.6,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3019,7 +2974,7 @@
                 "address": "455 Town Center Drive",
                 "latitude": 39.9718,
                 "longitude": -76.7763,
-                "zip": "17404",
+                "zip": "17408",
                 "nearby_theaters": [
                     {
                         "code": "0754",
@@ -3036,7 +2991,10 @@
                         "road_miles": 42.3,
                         "drive_min": 46
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3050,7 +3008,10 @@
                 "latitude": 24.56998,
                 "longitude": -81.76304,
                 "zip": "33040",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3080,7 +3041,10 @@
                         "road_miles": 58.6,
                         "drive_min": 64
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3110,7 +3074,10 @@
                         "road_miles": 47.9,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3156,11 +3123,6 @@
                         "drive_min": 42
                     },
                     {
-                        "code": "0482",
-                        "road_miles": 42.7,
-                        "drive_min": 48
-                    },
-                    {
                         "code": "1149",
                         "road_miles": 40.4,
                         "drive_min": 48
@@ -3170,7 +3132,10 @@
                         "road_miles": 48.5,
                         "drive_min": 50
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3205,7 +3170,10 @@
                         "road_miles": 55.9,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3240,7 +3208,10 @@
                         "road_miles": 60.4,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3253,7 +3224,7 @@
                 "address": "6006 Hollywood Drive",
                 "latitude": 26.2201,
                 "longitude": -81.7713,
-                "zip": "35105",
+                "zip": "34109",
                 "nearby_theaters": [
                     {
                         "code": "0684",
@@ -3265,7 +3236,10 @@
                         "road_miles": 31.1,
                         "drive_min": 36
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3300,7 +3274,10 @@
                         "road_miles": 59.8,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3313,7 +3290,7 @@
                 "address": "1993 Main Street",
                 "latitude": 27.3373,
                 "longitude": -82.5316,
-                "zip": "34321",
+                "zip": "34236",
                 "nearby_theaters": [
                     {
                         "code": "0444",
@@ -3335,62 +3312,10 @@
                         "road_miles": 60.4,
                         "drive_min": 66
                     }
-                ]
-            }
-        },
-        {
-            "item": {
-                "state": "FL",
-                "city": "Miami Beach",
-                "theatre_code": "0482",
-                "path_name": "regal-south-beach-0482",
-                "name": "Regal South Beach",
-                "address": "1120 Lincoln Road Mall",
-                "latitude": 25.7897,
-                "longitude": -80.1402,
-                "zip": "33139",
-                "nearby_theaters": [
-                    {
-                        "code": "0996",
-                        "road_miles": 23.9,
-                        "drive_min": 34
-                    },
-                    {
-                        "code": "1474",
-                        "road_miles": 24.4,
-                        "drive_min": 35
-                    },
-                    {
-                        "code": "0683",
-                        "road_miles": 29.4,
-                        "drive_min": 39
-                    },
-                    {
-                        "code": "1149",
-                        "road_miles": 23.7,
-                        "drive_min": 40
-                    },
-                    {
-                        "code": "0709",
-                        "road_miles": 31.4,
-                        "drive_min": 42
-                    },
-                    {
-                        "code": "1762",
-                        "road_miles": 30.0,
-                        "drive_min": 42
-                    },
-                    {
-                        "code": "0442",
-                        "road_miles": 42.7,
-                        "drive_min": 48
-                    },
-                    {
-                        "code": "0339",
-                        "road_miles": 47.6,
-                        "drive_min": 58
-                    }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3403,7 +3328,7 @@
                 "address": "2801 SW 27th Avenue",
                 "latitude": 29.1597,
                 "longitude": -82.1689,
-                "zip": "34471",
+                "zip": "34474",
                 "nearby_theaters": [
                     {
                         "code": "1416",
@@ -3425,7 +3350,10 @@
                         "road_miles": 42.7,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3465,7 +3393,10 @@
                         "road_miles": 72.8,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3505,7 +3436,10 @@
                         "road_miles": 55.3,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3519,7 +3453,10 @@
                 "latitude": 43.0296,
                 "longitude": -77.4395,
                 "zip": "14564",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3614,7 +3551,10 @@
                         "road_miles": 57.3,
                         "drive_min": 82
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3654,7 +3594,10 @@
                         "road_miles": 54.6,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3668,7 +3611,10 @@
                 "latitude": 34.793,
                 "longitude": -92.2267,
                 "zip": "72116",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -3748,7 +3694,10 @@
                         "road_miles": 59.8,
                         "drive_min": 70
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3853,7 +3802,10 @@
                         "road_miles": 63.8,
                         "drive_min": 82
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3938,7 +3890,10 @@
                         "road_miles": 53.4,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -3983,7 +3938,10 @@
                         "road_miles": 25.4,
                         "drive_min": 30
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -3996,7 +3954,7 @@
                 "address": "11075 W Interstate 10  Ste 1H",
                 "latitude": 29.5487,
                 "longitude": -98.5849,
-                "zip": "78288",
+                "zip": "78230",
                 "nearby_theaters": [
                     {
                         "code": "0765",
@@ -4018,7 +3976,10 @@
                         "road_miles": 19.0,
                         "drive_min": 20
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -4108,7 +4069,10 @@
                         "road_miles": 70.6,
                         "drive_min": 80
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -4121,8 +4085,11 @@
                 "address": "5330 West Saginaw Highway",
                 "latitude": 42.7433,
                 "longitude": -84.629,
-                "zip": "48890",
-                "nearby_theaters": []
+                "zip": "48917",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -4187,7 +4154,10 @@
                         "road_miles": 64.5,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4201,7 +4171,10 @@
                 "latitude": 64.8369,
                 "longitude": -147.7578,
                 "zip": "99701",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Alaska",
+                "unlimited_tier": 3
             }
         },
         {
@@ -4241,7 +4214,10 @@
                         "road_miles": 51.0,
                         "drive_min": 49
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 3
             }
         },
         {
@@ -4271,7 +4247,10 @@
                         "road_miles": 56.2,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4366,7 +4345,10 @@
                         "road_miles": 54.8,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -4451,7 +4433,10 @@
                         "road_miles": 49.6,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4496,7 +4481,10 @@
                         "road_miles": 32.5,
                         "drive_min": 34
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4576,7 +4564,10 @@
                         "road_miles": 38.5,
                         "drive_min": 41
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4601,7 +4592,10 @@
                         "road_miles": 34.0,
                         "drive_min": 41
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4686,7 +4680,10 @@
                         "road_miles": 48.8,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4731,7 +4728,10 @@
                         "road_miles": 26.1,
                         "drive_min": 30
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4801,7 +4801,10 @@
                         "road_miles": 33.6,
                         "drive_min": 100
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -4815,7 +4818,10 @@
                 "latitude": 32.5158,
                 "longitude": -93.7368,
                 "zip": "71111",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -4985,7 +4991,10 @@
                         "road_miles": 62.9,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5005,7 +5014,10 @@
                         "road_miles": 43.9,
                         "drive_min": 46
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -5025,7 +5037,10 @@
                         "road_miles": 34.6,
                         "drive_min": 37
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5080,7 +5095,10 @@
                         "road_miles": 68.9,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5094,7 +5112,10 @@
                 "latitude": 38.389,
                 "longitude": -75.578,
                 "zip": "21801",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -5124,7 +5145,10 @@
                         "road_miles": 10.0,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5154,7 +5178,10 @@
                         "road_miles": 57.0,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -5224,7 +5251,10 @@
                         "road_miles": 62.1,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5238,7 +5268,10 @@
                 "latitude": 40.7378,
                 "longitude": -84.1655,
                 "zip": "45805",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -5268,7 +5301,10 @@
                         "road_miles": 16.0,
                         "drive_min": 22
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -5281,7 +5317,7 @@
                 "address": "20505 S Dixie Hwy Suite 1301",
                 "latitude": 25.5772,
                 "longitude": -80.3689,
-                "zip": "33197",
+                "zip": "33189",
                 "nearby_theaters": [
                     {
                         "code": "0996",
@@ -5299,11 +5335,6 @@
                         "drive_min": 35
                     },
                     {
-                        "code": "0482",
-                        "road_miles": 29.4,
-                        "drive_min": 39
-                    },
-                    {
                         "code": "0442",
                         "road_miles": 44.1,
                         "drive_min": 42
@@ -5318,7 +5349,10 @@
                         "road_miles": 43.5,
                         "drive_min": 51
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5331,7 +5365,7 @@
                 "address": "10028 Gulf Center Drive",
                 "latitude": 26.4852,
                 "longitude": -81.788,
-                "zip": "33967",
+                "zip": "33913",
                 "nearby_theaters": [
                     {
                         "code": "0432",
@@ -5348,7 +5382,10 @@
                         "road_miles": 48.1,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5393,7 +5430,10 @@
                         "road_miles": 37.7,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5503,7 +5543,10 @@
                         "road_miles": 52.3,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -5533,7 +5576,10 @@
                         "road_miles": 16.0,
                         "drive_min": 22
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -5633,7 +5679,10 @@
                         "road_miles": 77.0,
                         "drive_min": 90
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -5647,7 +5696,10 @@
                 "latitude": 39.0928,
                 "longitude": -108.6053,
                 "zip": "81505",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5677,7 +5729,10 @@
                         "road_miles": 18.4,
                         "drive_min": 23
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5737,7 +5792,10 @@
                         "road_miles": 57.2,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5902,7 +5960,10 @@
                         "road_miles": 59.5,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -5915,7 +5976,7 @@
                 "address": "2399 Route 1 South",
                 "latitude": 40.4427,
                 "longitude": -74.5053,
-                "zip": "08920",
+                "zip": "08902",
                 "nearby_theaters": [
                     {
                         "code": "0370",
@@ -6027,7 +6088,10 @@
                         "road_miles": 62.0,
                         "drive_min": 80
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6046,11 +6110,6 @@
                         "code": "0164",
                         "road_miles": 28.8,
                         "drive_min": 41
-                    },
-                    {
-                        "code": "0238",
-                        "road_miles": 29.8,
-                        "drive_min": 42
                     },
                     {
                         "code": "0755",
@@ -6072,7 +6131,10 @@
                         "road_miles": 49.2,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6177,7 +6239,10 @@
                         "road_miles": 62.2,
                         "drive_min": 85
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -6190,7 +6255,7 @@
                 "address": "15977 Pines Blvd. on Dykes Roa",
                 "latitude": 26.0077,
                 "longitude": -80.3605,
-                "zip": "33082",
+                "zip": "33027",
                 "nearby_theaters": [
                     {
                         "code": "0442",
@@ -6228,16 +6293,14 @@
                         "drive_min": 40
                     },
                     {
-                        "code": "0482",
-                        "road_miles": 31.4,
-                        "drive_min": 42
-                    },
-                    {
                         "code": "0351",
                         "road_miles": 60.4,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6250,7 +6313,7 @@
                 "address": "3301 Plank Road Route 3W",
                 "latitude": 38.2961,
                 "longitude": -77.5168,
-                "zip": "22407",
+                "zip": "22401",
                 "nearby_theaters": [
                     {
                         "code": "1913",
@@ -6307,7 +6370,10 @@
                         "road_miles": 71.9,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6322,11 +6388,6 @@
                 "longitude": -76.1314,
                 "zip": "23462",
                 "nearby_theaters": [
-                    {
-                        "code": "0280",
-                        "road_miles": 10.5,
-                        "drive_min": 15
-                    },
                     {
                         "code": "0365",
                         "road_miles": 10.2,
@@ -6343,16 +6404,14 @@
                         "drive_min": 26
                     },
                     {
-                        "code": "0161",
-                        "road_miles": 33.6,
-                        "drive_min": 38
-                    },
-                    {
                         "code": "1868",
                         "road_miles": 53.7,
                         "drive_min": 59
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6402,7 +6461,10 @@
                         "road_miles": 54.0,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6437,7 +6499,10 @@
                         "road_miles": 55.9,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6457,7 +6522,10 @@
                         "road_miles": 26.8,
                         "drive_min": 41
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6471,7 +6539,10 @@
                 "latitude": 38.021,
                 "longitude": -84.419,
                 "zip": "40509",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6484,7 +6555,7 @@
                 "address": "11650 West Broad Street",
                 "latitude": 37.6532,
                 "longitude": -77.6136,
-                "zip": "23221",
+                "zip": "23233",
                 "nearby_theaters": [
                     {
                         "code": "1226",
@@ -6516,7 +6587,10 @@
                         "road_miles": 57.5,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6536,7 +6610,10 @@
                         "road_miles": 49.0,
                         "drive_min": 58
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6586,7 +6663,10 @@
                         "road_miles": 59.8,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6611,7 +6691,10 @@
                         "road_miles": 61.4,
                         "drive_min": 79
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6771,7 +6854,10 @@
                         "road_miles": 57.3,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -6826,7 +6912,10 @@
                         "road_miles": 57.3,
                         "drive_min": 82
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6860,13 +6949,11 @@
                         "code": "0164",
                         "road_miles": 46.7,
                         "drive_min": 51
-                    },
-                    {
-                        "code": "0238",
-                        "road_miles": 51.7,
-                        "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6880,7 +6967,10 @@
                 "latitude": 44.0393,
                 "longitude": -121.3265,
                 "zip": "97702",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -6894,7 +6984,10 @@
                 "latitude": 33.6378,
                 "longitude": -86.6313,
                 "zip": "35235",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6929,7 +7022,10 @@
                         "road_miles": 20.1,
                         "drive_min": 22
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -6984,7 +7080,10 @@
                         "road_miles": 50.0,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7019,7 +7118,10 @@
                         "road_miles": 20.1,
                         "drive_min": 22
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -7104,7 +7206,10 @@
                         "road_miles": 51.2,
                         "drive_min": 58
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7134,7 +7239,10 @@
                         "road_miles": 43.9,
                         "drive_min": 46
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -7179,7 +7287,10 @@
                         "road_miles": 22.9,
                         "drive_min": 25
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7192,7 +7303,7 @@
                 "address": "1301-A W Sunset Road",
                 "latitude": 36.0636,
                 "longitude": -115.0426,
-                "zip": "89120",
+                "zip": "89014",
                 "nearby_theaters": [
                     {
                         "code": "0637",
@@ -7224,7 +7335,10 @@
                         "road_miles": 29.7,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7299,7 +7413,10 @@
                         "road_miles": 30.0,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7374,7 +7491,10 @@
                         "road_miles": 44.7,
                         "drive_min": 48
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7387,7 +7507,7 @@
                 "address": "9010 NE Hwy 99",
                 "latitude": 45.6883,
                 "longitude": -122.6628,
-                "zip": "98663",
+                "zip": "98665",
                 "nearby_theaters": [
                     {
                         "code": "0847",
@@ -7449,7 +7569,10 @@
                         "road_miles": 29.3,
                         "drive_min": 42
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7529,7 +7652,10 @@
                         "road_miles": 54.2,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7614,7 +7740,10 @@
                         "road_miles": 62.0,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7694,7 +7823,10 @@
                         "road_miles": 41.2,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7779,7 +7911,10 @@
                         "road_miles": 64.5,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7792,7 +7927,7 @@
                 "address": "2929 N.E. Kane Drive",
                 "latitude": 45.5184,
                 "longitude": -122.3971,
-                "zip": "97060",
+                "zip": "97030",
                 "nearby_theaters": [
                     {
                         "code": "0807",
@@ -7864,7 +7999,10 @@
                         "road_miles": 66.2,
                         "drive_min": 73
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -7929,7 +8067,10 @@
                         "road_miles": 66.2,
                         "drive_min": 73
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8019,7 +8160,10 @@
                         "road_miles": 59.5,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8114,7 +8258,10 @@
                         "road_miles": 44.9,
                         "drive_min": 111
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8139,7 +8286,10 @@
                         "road_miles": 34.0,
                         "drive_min": 41
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8224,7 +8374,10 @@
                         "road_miles": 59.9,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8309,7 +8462,10 @@
                         "road_miles": 54.0,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8334,7 +8490,10 @@
                         "road_miles": 15.0,
                         "drive_min": 25
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8424,7 +8583,10 @@
                         "road_miles": 88.5,
                         "drive_min": 97
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8437,7 +8599,7 @@
                 "address": "1200  156th Avenue NE",
                 "latitude": 47.6207,
                 "longitude": -122.131,
-                "zip": "98007",
+                "zip": "98008",
                 "nearby_theaters": [
                     {
                         "code": "0904",
@@ -8514,7 +8676,10 @@
                         "road_miles": 83.2,
                         "drive_min": 92
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8604,7 +8769,10 @@
                         "road_miles": 22.0,
                         "drive_min": 90
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8624,7 +8792,10 @@
                         "road_miles": 8.6,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Alaska",
+                "unlimited_tier": 2
             }
         },
         {
@@ -8659,7 +8830,10 @@
                         "road_miles": 12.2,
                         "drive_min": 17
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -8694,7 +8868,10 @@
                         "road_miles": 16.2,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -8724,7 +8901,10 @@
                         "road_miles": 67.6,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -8749,7 +8929,10 @@
                         "road_miles": 16.1,
                         "drive_min": 21
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -8774,7 +8957,10 @@
                         "road_miles": 12.9,
                         "drive_min": 16
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -8787,7 +8973,7 @@
                 "address": "8595 S.W. 124 Avenue",
                 "latitude": 25.6873,
                 "longitude": -80.3947,
-                "zip": "33186",
+                "zip": "33183",
                 "nearby_theaters": [
                     {
                         "code": "0683",
@@ -8803,11 +8989,6 @@
                         "code": "0709",
                         "road_miles": 23.8,
                         "drive_min": 28
-                    },
-                    {
-                        "code": "0482",
-                        "road_miles": 23.9,
-                        "drive_min": 34
                     },
                     {
                         "code": "0442",
@@ -8829,7 +9010,10 @@
                         "road_miles": 49.3,
                         "drive_min": 48
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -9004,7 +9188,10 @@
                         "road_miles": 66.8,
                         "drive_min": 68
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -9059,7 +9246,10 @@
                         "road_miles": 57.6,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -9234,7 +9424,10 @@
                         "road_miles": 72.8,
                         "drive_min": 82
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -9399,7 +9592,10 @@
                         "road_miles": 55.8,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -9412,7 +9608,7 @@
                 "address": "12761 Towne Center Drive",
                 "latitude": 33.8697,
                 "longitude": -118.057,
-                "zip": "90703",
+                "zip": "90701",
                 "nearby_theaters": [
                     {
                         "code": "1042",
@@ -9569,7 +9765,10 @@
                         "road_miles": 54.3,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -9739,7 +9938,10 @@
                         "road_miles": 71.8,
                         "drive_min": 74
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -9752,7 +9954,7 @@
                 "address": "4245 Campus Drive",
                 "latitude": 33.6501,
                 "longitude": -117.8386,
-                "zip": "92616",
+                "zip": "92612",
                 "nearby_theaters": [
                     {
                         "code": "1007",
@@ -9909,7 +10111,10 @@
                         "road_miles": 64.7,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -10064,7 +10269,10 @@
                         "road_miles": 46.9,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -10084,7 +10292,10 @@
                         "road_miles": 18.9,
                         "drive_min": 24
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -10244,7 +10455,10 @@
                         "road_miles": 68.2,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -10414,7 +10628,10 @@
                         "road_miles": 52.5,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -10427,8 +10644,11 @@
                 "address": "9000-G Ming Avenue",
                 "latitude": 35.3393,
                 "longitude": -119.1017,
-                "zip": "93304",
-                "nearby_theaters": []
+                "zip": "93311",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -10603,7 +10823,10 @@
                         "road_miles": 81.0,
                         "drive_min": 91
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -10638,7 +10861,10 @@
                         "road_miles": 55.2,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -10651,7 +10877,7 @@
                 "address": "1180 W San Marcos Boulevard",
                 "latitude": 33.1337,
                 "longitude": -117.192,
-                "zip": "92078",
+                "zip": "92069",
                 "nearby_theaters": [
                     {
                         "code": "1805",
@@ -10718,7 +10944,10 @@
                         "road_miles": 64.5,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -10893,7 +11122,10 @@
                         "road_miles": 81.3,
                         "drive_min": 88
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -11058,7 +11290,10 @@
                         "road_miles": 58.4,
                         "drive_min": 68
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -11158,7 +11393,10 @@
                         "road_miles": 59.2,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -11178,7 +11416,10 @@
                         "road_miles": 18.9,
                         "drive_min": 24
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -11191,8 +11432,11 @@
                 "address": "2707 South 25th East",
                 "latitude": 43.47512,
                 "longitude": -111.98264,
-                "zip": "83404",
-                "nearby_theaters": []
+                "zip": "83406",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -11205,7 +11449,7 @@
                 "address": "7501 East Carson",
                 "latitude": 33.8314,
                 "longitude": -118.0878,
-                "zip": "90810",
+                "zip": "90808",
                 "nearby_theaters": [
                     {
                         "code": "1018",
@@ -11362,7 +11606,10 @@
                         "road_miles": 55.1,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -11422,7 +11669,10 @@
                         "road_miles": 48.2,
                         "drive_min": 52
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -11592,7 +11842,10 @@
                         "road_miles": 52.2,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -11717,7 +11970,10 @@
                         "road_miles": 71.7,
                         "drive_min": 88
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -11777,7 +12033,10 @@
                         "road_miles": 51.5,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -11882,7 +12141,10 @@
                         "road_miles": 68.2,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12062,7 +12324,10 @@
                         "road_miles": 67.4,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12117,7 +12382,10 @@
                         "road_miles": 55.7,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12147,7 +12415,10 @@
                         "road_miles": 37.2,
                         "drive_min": 40
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -12177,7 +12448,10 @@
                         "road_miles": 35.8,
                         "drive_min": 37
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -12352,7 +12626,10 @@
                         "road_miles": 52.9,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12365,7 +12642,7 @@
                 "address": "30 Main Street",
                 "latitude": 40.9637,
                 "longitude": -72.1855,
-                "zip": "11975",
+                "zip": "11937",
                 "nearby_theaters": [
                     {
                         "code": "1313",
@@ -12382,7 +12659,10 @@
                         "road_miles": 78.7,
                         "drive_min": 175
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12492,7 +12772,10 @@
                         "road_miles": 49.6,
                         "drive_min": 78
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12505,7 +12788,7 @@
                 "address": "9000 S.W. 136Th Street",
                 "latitude": 25.6431,
                 "longitude": -80.3393,
-                "zip": "33158",
+                "zip": "33176",
                 "nearby_theaters": [
                     {
                         "code": "0683",
@@ -12516,11 +12799,6 @@
                         "code": "0996",
                         "road_miles": 6.2,
                         "drive_min": 17
-                    },
-                    {
-                        "code": "0482",
-                        "road_miles": 23.7,
-                        "drive_min": 40
                     },
                     {
                         "code": "0709",
@@ -12547,7 +12825,10 @@
                         "road_miles": 53.4,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -12657,7 +12938,10 @@
                         "road_miles": 49.2,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -12671,7 +12955,10 @@
                 "latitude": 30.4145,
                 "longitude": -86.6541,
                 "zip": "32569",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -12685,7 +12972,10 @@
                 "latitude": 31.122,
                 "longitude": -93.2724,
                 "zip": "71446",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -12699,7 +12989,10 @@
                 "latitude": 31.5801,
                 "longitude": -90.4496,
                 "zip": "39601",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -12729,7 +13022,10 @@
                         "road_miles": 43.8,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -12742,7 +13038,7 @@
                 "address": "8998 West Broad Street",
                 "latitude": 37.6345,
                 "longitude": -77.546,
-                "zip": "23221",
+                "zip": "23294",
                 "nearby_theaters": [
                     {
                         "code": "0730",
@@ -12774,7 +13070,10 @@
                         "road_miles": 53.1,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -12819,7 +13118,10 @@
                         "road_miles": 50.6,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -12924,7 +13226,10 @@
                         "road_miles": 67.5,
                         "drive_min": 83
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13084,7 +13389,10 @@
                         "road_miles": 55.7,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -13189,7 +13497,10 @@
                         "road_miles": 66.7,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -13279,7 +13590,10 @@
                         "road_miles": 52.7,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13379,7 +13693,10 @@
                         "road_miles": 52.5,
                         "drive_min": 70
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13434,7 +13751,10 @@
                         "road_miles": 53.3,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13544,21 +13864,10 @@
                         "road_miles": 80.8,
                         "drive_min": 88
                     }
-                ]
-            }
-        },
-        {
-            "item": {
-                "state": "MI",
-                "city": "Walled Lake",
-                "theatre_code": "1294",
-                "path_name": "regal-ua-commerce-township-1294",
-                "name": "Regal UA Commerce Township",
-                "address": "3033 Springvale Drive",
-                "latitude": 42.527,
-                "longitude": -83.4374,
-                "zip": "48377",
-                "nearby_theaters": []
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13593,7 +13902,10 @@
                         "road_miles": 31.3,
                         "drive_min": 40
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -13613,7 +13925,10 @@
                         "road_miles": 42.3,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -13638,7 +13953,10 @@
                         "road_miles": 52.7,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13683,7 +14001,10 @@
                         "road_miles": 52.8,
                         "drive_min": 52
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13763,7 +14084,10 @@
                         "road_miles": 50.6,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13803,7 +14127,10 @@
                         "road_miles": 60.1,
                         "drive_min": 138
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -13908,7 +14235,10 @@
                         "road_miles": 60.9,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13948,7 +14278,10 @@
                         "road_miles": 37.2,
                         "drive_min": 49
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -13968,7 +14301,10 @@
                         "road_miles": 42.3,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -14058,7 +14394,10 @@
                         "road_miles": 77.0,
                         "drive_min": 90
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14163,7 +14502,10 @@
                         "road_miles": 72.2,
                         "drive_min": 86
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14273,7 +14615,10 @@
                         "road_miles": 52.2,
                         "drive_min": 70
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14373,7 +14718,10 @@
                         "road_miles": 64.6,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -14483,7 +14831,10 @@
                         "road_miles": 45.3,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14593,7 +14944,10 @@
                         "road_miles": 54.8,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14673,7 +15027,10 @@
                         "road_miles": 52.3,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -14783,7 +15140,10 @@
                         "road_miles": 60.4,
                         "drive_min": 78
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14893,7 +15253,10 @@
                         "road_miles": 52.0,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -14948,7 +15311,10 @@
                         "road_miles": 48.6,
                         "drive_min": 50
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -14983,7 +15349,10 @@
                         "road_miles": 45.6,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -15088,7 +15457,10 @@
                         "road_miles": 71.0,
                         "drive_min": 87
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15163,7 +15535,10 @@
                         "road_miles": 57.3,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -15273,7 +15648,10 @@
                         "road_miles": 55.7,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -15286,7 +15664,7 @@
                 "address": "1135 Bankhead Highway",
                 "latitude": 33.5933,
                 "longitude": -85.038,
-                "zip": "30117",
+                "zip": "30116",
                 "nearby_theaters": [
                     {
                         "code": "0392",
@@ -15323,7 +15701,10 @@
                         "road_miles": 59.8,
                         "drive_min": 86
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15336,7 +15717,7 @@
                 "address": "120 Green Hill Circle NW",
                 "latitude": 34.2952,
                 "longitude": -83.8568,
-                "zip": "30505",
+                "zip": "30504",
                 "nearby_theaters": [
                     {
                         "code": "1422",
@@ -15378,7 +15759,10 @@
                         "road_miles": 53.2,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15433,7 +15817,10 @@
                         "road_miles": 41.8,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15503,7 +15890,10 @@
                         "road_miles": 53.2,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15548,7 +15938,10 @@
                         "road_miles": 59.8,
                         "drive_min": 86
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -15562,7 +15955,10 @@
                 "latitude": 40.6509,
                 "longitude": -111.942,
                 "zip": "84123",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15727,7 +16123,10 @@
                         "road_miles": 63.7,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -15762,7 +16161,10 @@
                         "road_miles": 53.1,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -15907,7 +16309,10 @@
                         "road_miles": 57.3,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -15937,7 +16342,10 @@
                         "road_miles": 29.4,
                         "drive_min": 34
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15950,14 +16358,17 @@
                 "address": "9150 W 21st St.",
                 "latitude": 37.7242,
                 "longitude": -97.4478,
-                "zip": "67212",
+                "zip": "67205",
                 "nearby_theaters": [
                     {
                         "code": "1444",
                         "road_miles": 19.2,
                         "drive_min": 24
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -15977,7 +16388,10 @@
                         "road_miles": 19.2,
                         "drive_min": 24
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16002,7 +16416,10 @@
                         "road_miles": 14.6,
                         "drive_min": 20
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -16016,7 +16433,10 @@
                 "latitude": 35.9913,
                 "longitude": -95.8096,
                 "zip": "74011",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16046,7 +16466,10 @@
                         "road_miles": 9.3,
                         "drive_min": 16
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16091,7 +16514,10 @@
                         "road_miles": 10.0,
                         "drive_min": 23
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16104,7 +16530,7 @@
                 "address": "3251 20th Avenue",
                 "latitude": 37.72817,
                 "longitude": -122.47755,
-                "zip": "94312",
+                "zip": "94132",
                 "nearby_theaters": [
                     {
                         "code": "1808",
@@ -16121,7 +16547,10 @@
                         "road_miles": 52.7,
                         "drive_min": 66
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -16146,7 +16575,10 @@
                         "road_miles": 58.1,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -16159,8 +16591,11 @@
                 "address": "1 MGM Way",
                 "latitude": 42.0989,
                 "longitude": -72.5864,
-                "zip": "01144",
-                "nearby_theaters": []
+                "zip": "01103",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -16173,7 +16608,7 @@
                 "address": "4495 Riley Fuzzel Road",
                 "latitude": 30.12143,
                 "longitude": -95.37575,
-                "zip": "77373",
+                "zip": "77386",
                 "nearby_theaters": [
                     {
                         "code": "1441",
@@ -16190,7 +16625,10 @@
                         "road_miles": 37.2,
                         "drive_min": 40
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16300,7 +16738,10 @@
                         "road_miles": 63.3,
                         "drive_min": 74
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16410,7 +16851,10 @@
                         "road_miles": 58.6,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -16446,11 +16890,6 @@
                         "drive_min": 34
                     },
                     {
-                        "code": "0482",
-                        "road_miles": 24.4,
-                        "drive_min": 35
-                    },
-                    {
                         "code": "0996",
                         "road_miles": 38.5,
                         "drive_min": 45
@@ -16470,7 +16909,10 @@
                         "road_miles": 52.0,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -16484,7 +16926,10 @@
                 "latitude": 30.0171,
                 "longitude": -90.2506,
                 "zip": "70065",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -16509,7 +16954,10 @@
                         "road_miles": 21.9,
                         "drive_min": 26
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -16639,7 +17087,10 @@
                         "road_miles": 50.7,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -16809,7 +17260,10 @@
                         "road_miles": 57.6,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -16984,7 +17438,10 @@
                         "road_miles": 59.0,
                         "drive_min": 74
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -16999,11 +17456,6 @@
                 "longitude": -81.529,
                 "zip": "44646",
                 "nearby_theaters": [
-                    {
-                        "code": "0238",
-                        "road_miles": 24.4,
-                        "drive_min": 38
-                    },
                     {
                         "code": "0164",
                         "road_miles": 31.8,
@@ -17024,7 +17476,10 @@
                         "road_miles": 66.4,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17049,7 +17504,10 @@
                         "road_miles": 58.8,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17084,7 +17542,10 @@
                         "road_miles": 38.2,
                         "drive_min": 42
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17098,7 +17559,10 @@
                 "latitude": 38.4221,
                 "longitude": -81.8095,
                 "zip": "25313",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17168,7 +17632,10 @@
                         "road_miles": 60.5,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17203,7 +17670,10 @@
                         "road_miles": 39.0,
                         "drive_min": 47
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17216,7 +17686,7 @@
                 "address": "323 Great Escape Drive",
                 "latitude": 36.9655,
                 "longitude": -86.4722,
-                "zip": "42104",
+                "zip": "42101",
                 "nearby_theaters": [
                     {
                         "code": "1581",
@@ -17228,7 +17698,10 @@
                         "road_miles": 59.2,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17248,7 +17721,10 @@
                         "road_miles": 27.1,
                         "drive_min": 31
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17283,7 +17759,10 @@
                         "road_miles": 58.2,
                         "drive_min": 58
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17343,7 +17822,10 @@
                         "road_miles": 61.1,
                         "drive_min": 62
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17356,7 +17838,7 @@
                 "address": "14500 W. Colfax Ave, Suite 600",
                 "latitude": 39.73,
                 "longitude": -105.16,
-                "zip": "80410",
+                "zip": "80401",
                 "nearby_theaters": [
                     {
                         "code": "1308",
@@ -17383,7 +17865,10 @@
                         "road_miles": 44.4,
                         "drive_min": 52
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17396,7 +17881,7 @@
                 "address": "701 Seventh Street Northwest",
                 "latitude": 38.8976,
                 "longitude": -77.0245,
-                "zip": "20004",
+                "zip": "20001",
                 "nearby_theaters": [
                     {
                         "code": "0296",
@@ -17473,7 +17958,10 @@
                         "road_miles": 61.4,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17486,7 +17974,7 @@
                 "address": "2625 Scottsville Rd.",
                 "latitude": 36.9415,
                 "longitude": -86.4214,
-                "zip": "42104",
+                "zip": "42103",
                 "nearby_theaters": [
                     {
                         "code": "1525",
@@ -17498,7 +17986,10 @@
                         "road_miles": 55.9,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17512,7 +18003,10 @@
                 "latitude": 33.3293,
                 "longitude": -111.79,
                 "zip": "85296",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Arizona",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17552,7 +18046,10 @@
                         "road_miles": 57.4,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17565,7 +18062,7 @@
                 "address": "1120 Interquest Pkwy",
                 "latitude": 38.9878,
                 "longitude": -104.7924,
-                "zip": "80921",
+                "zip": "80920",
                 "nearby_theaters": [
                     {
                         "code": "1610",
@@ -17582,7 +18079,10 @@
                         "road_miles": 55.5,
                         "drive_min": 59
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17627,7 +18127,10 @@
                         "road_miles": 49.0,
                         "drive_min": 64
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17662,7 +18165,10 @@
                         "road_miles": 62.2,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17675,8 +18181,11 @@
                 "address": "70 E. Kaahnumanu Ave Suite A",
                 "latitude": 20.8822,
                 "longitude": -156.47549,
-                "zip": "96784",
-                "nearby_theaters": []
+                "zip": "96732",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17696,7 +18205,10 @@
                         "road_miles": 35.0,
                         "drive_min": 37
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17716,7 +18228,9 @@
                         "road_miles": 35.0,
                         "drive_min": 37
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central"
             }
         },
         {
@@ -17730,7 +18244,10 @@
                 "latitude": 38.9211,
                 "longitude": -92.2989,
                 "zip": "65201",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17744,7 +18261,10 @@
                 "latitude": 37.098,
                 "longitude": -94.4684,
                 "zip": "64801",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17758,7 +18278,10 @@
                 "latitude": 39.8146,
                 "longitude": -94.8148,
                 "zip": "64506",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17771,8 +18294,11 @@
                 "address": "2825 W. Main Street",
                 "latitude": 45.671,
                 "longitude": -111.079,
-                "zip": "59718",
-                "nearby_theaters": []
+                "zip": "59715",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17797,7 +18323,10 @@
                         "road_miles": 21.9,
                         "drive_min": 26
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17811,7 +18340,10 @@
                 "latitude": 36.7567,
                 "longitude": -95.9353,
                 "zip": "74006",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17831,7 +18363,10 @@
                         "road_miles": 67.6,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17845,7 +18380,10 @@
                 "latitude": 30.1222,
                 "longitude": -94.1575,
                 "zip": "77706",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17858,8 +18396,11 @@
                 "address": "300 Early Blvd",
                 "latitude": 31.7343,
                 "longitude": -98.9648,
-                "zip": "76802",
-                "nearby_theaters": []
+                "zip": "76801",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17873,7 +18414,10 @@
                 "latitude": 13.484,
                 "longitude": 144.7765,
                 "zip": "96911",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "Pacific/Guam",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17887,7 +18431,10 @@
                 "latitude": -14.2733,
                 "longitude": -170.7021,
                 "zip": "96799",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "Pacific/Pago_Pago",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17901,7 +18448,10 @@
                 "latitude": 19.6983,
                 "longitude": -155.0649,
                 "zip": "96720",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17915,7 +18465,10 @@
                 "latitude": 37.958,
                 "longitude": -91.7594,
                 "zip": "65401",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17929,7 +18482,10 @@
                 "latitude": 41.3107,
                 "longitude": -105.5904,
                 "zip": "82070",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -17949,7 +18505,10 @@
                         "road_miles": 54.7,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -17962,7 +18521,7 @@
                 "address": "21100 Dulles Town Cir, Ste 203",
                 "latitude": 39.0319,
                 "longitude": -77.4235,
-                "zip": "20166",
+                "zip": "20164",
                 "nearby_theaters": [
                     {
                         "code": "1869",
@@ -18039,7 +18598,10 @@
                         "road_miles": 62.3,
                         "drive_min": 73
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18079,7 +18641,10 @@
                         "road_miles": 49.0,
                         "drive_min": 64
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18164,7 +18729,10 @@
                         "road_miles": 64.3,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18177,14 +18745,17 @@
                 "address": "100 Town Center East",
                 "latitude": 34.9512,
                 "longitude": -120.4343,
-                "zip": "93548",
+                "zip": "93454",
                 "nearby_theaters": [
                     {
                         "code": "1812",
                         "road_miles": 18.2,
                         "drive_min": 22
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18249,7 +18820,10 @@
                         "road_miles": 53.2,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18274,7 +18848,10 @@
                         "road_miles": 78.7,
                         "drive_min": 175
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18288,7 +18865,10 @@
                 "latitude": 44.3419,
                 "longitude": -69.7907,
                 "zip": "04330",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18358,7 +18938,10 @@
                         "road_miles": 72.6,
                         "drive_min": 81
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18383,7 +18966,10 @@
                         "road_miles": 47.5,
                         "drive_min": 52
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -18408,7 +18994,10 @@
                         "road_miles": 47.5,
                         "drive_min": 52
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18428,7 +19017,10 @@
                         "road_miles": 31.0,
                         "drive_min": 39
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18448,7 +19040,10 @@
                         "road_miles": 21.7,
                         "drive_min": 21
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -18462,7 +19057,10 @@
                 "latitude": 43.0913,
                 "longitude": -70.8008,
                 "zip": "03801",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18475,7 +19073,7 @@
                 "address": "4215 Black Horse Pike, Lot 600",
                 "latitude": 39.451,
                 "longitude": -74.643,
-                "zip": "08234",
+                "zip": "08330",
                 "nearby_theaters": [
                     {
                         "code": "0167",
@@ -18517,7 +19115,10 @@
                         "road_miles": 63.0,
                         "drive_min": 72
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18542,7 +19143,10 @@
                         "road_miles": 65.4,
                         "drive_min": 62
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18577,7 +19181,10 @@
                         "road_miles": 55.8,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -18607,7 +19214,10 @@
                         "road_miles": 52.2,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18620,14 +19230,17 @@
                 "address": "9586 Destiny USA Drive",
                 "latitude": 43.0683,
                 "longitude": -76.1707,
-                "zip": "13290",
+                "zip": "13204",
                 "nearby_theaters": [
                     {
                         "code": "0677",
                         "road_miles": 57.0,
                         "drive_min": 67
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18641,7 +19254,10 @@
                 "latitude": 44.7023,
                 "longitude": -73.4951,
                 "zip": "12901",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18654,7 +19270,7 @@
                 "address": "120 B Washington Avenue Ext",
                 "latitude": 42.6891,
                 "longitude": -73.853,
-                "zip": "12260",
+                "zip": "12203",
                 "nearby_theaters": [
                     {
                         "code": "1923",
@@ -18676,7 +19292,10 @@
                         "road_miles": 49.5,
                         "drive_min": 48
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -18711,7 +19330,10 @@
                         "road_miles": 55.8,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -18741,7 +19363,10 @@
                         "road_miles": 68.3,
                         "drive_min": 80
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -18754,7 +19379,7 @@
                 "address": "1500 Caughey Dr",
                 "latitude": 40.31,
                 "longitude": -76.8366,
-                "zip": "17140",
+                "zip": "17112",
                 "nearby_theaters": [
                     {
                         "code": "0395",
@@ -18766,7 +19391,10 @@
                         "road_miles": 45.0,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18791,7 +19419,10 @@
                         "road_miles": 71.9,
                         "drive_min": 70
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -18804,7 +19435,7 @@
                 "address": "733 Route 72 East",
                 "latitude": 39.7111,
                 "longitude": -74.2789,
-                "zip": "08005",
+                "zip": "08050",
                 "nearby_theaters": [
                     {
                         "code": "1729",
@@ -18851,7 +19482,10 @@
                         "road_miles": 62.5,
                         "drive_min": 85
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -18864,7 +19498,7 @@
                 "address": "8000 West Broward Blvd. #1840",
                 "latitude": 26.1162,
                 "longitude": -80.2539,
-                "zip": "33388",
+                "zip": "33324",
                 "nearby_theaters": [
                     {
                         "code": "0442",
@@ -18892,11 +19526,6 @@
                         "drive_min": 40
                     },
                     {
-                        "code": "0482",
-                        "road_miles": 30.0,
-                        "drive_min": 42
-                    },
-                    {
                         "code": "0683",
                         "road_miles": 46.4,
                         "drive_min": 48
@@ -18911,7 +19540,10 @@
                         "road_miles": 46.1,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -18946,7 +19578,10 @@
                         "road_miles": 35.4,
                         "drive_min": 34
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -19051,7 +19686,10 @@
                         "road_miles": 74.6,
                         "drive_min": 85
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -19081,7 +19719,10 @@
                         "road_miles": 56.2,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19111,7 +19752,10 @@
                         "road_miles": 46.4,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19141,7 +19785,10 @@
                         "road_miles": 47.6,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19176,7 +19823,10 @@
                         "road_miles": 35.1,
                         "drive_min": 41
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -19311,7 +19961,10 @@
                         "road_miles": 61.7,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -19336,7 +19989,10 @@
                         "road_miles": 71.7,
                         "drive_min": 88
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19441,7 +20097,10 @@
                         "road_miles": 81.0,
                         "drive_min": 91
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19516,7 +20175,10 @@
                         "road_miles": 61.1,
                         "drive_min": 74
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -19661,7 +20323,10 @@
                         "road_miles": 63.3,
                         "drive_min": 74
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 3
             }
         },
         {
@@ -19711,7 +20376,10 @@
                         "road_miles": 60.3,
                         "drive_min": 73
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19741,7 +20409,10 @@
                         "road_miles": 41.8,
                         "drive_min": 46
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19761,7 +20432,10 @@
                         "road_miles": 18.2,
                         "drive_min": 22
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19775,7 +20449,10 @@
                 "latitude": 39.1466,
                 "longitude": -123.2056,
                 "zip": "95482",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19830,7 +20507,10 @@
                         "road_miles": 58.2,
                         "drive_min": 62
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19895,7 +20575,10 @@
                         "road_miles": 55.7,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -19960,7 +20643,10 @@
                         "road_miles": 60.3,
                         "drive_min": 73
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -19973,7 +20659,7 @@
                 "address": "3969 McHenry Blvd",
                 "latitude": 37.6959,
                 "longitude": -120.9958,
-                "zip": "95350",
+                "zip": "95356",
                 "nearby_theaters": [
                     {
                         "code": "1819",
@@ -20005,7 +20691,10 @@
                         "road_miles": 46.3,
                         "drive_min": 64
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20045,7 +20734,10 @@
                         "road_miles": 57.1,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20075,7 +20767,10 @@
                         "road_miles": 46.6,
                         "drive_min": 46
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20088,7 +20783,7 @@
                 "address": "120 S Bridge Street",
                 "latitude": 36.3302,
                 "longitude": -119.288,
-                "zip": "93279",
+                "zip": "93291",
                 "nearby_theaters": [
                     {
                         "code": "1820",
@@ -20105,7 +20800,10 @@
                         "road_miles": 53.1,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20145,7 +20843,10 @@
                         "road_miles": 48.3,
                         "drive_min": 50
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20175,7 +20876,9 @@
                         "road_miles": 57.1,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific"
             }
         },
         {
@@ -20205,7 +20908,10 @@
                         "road_miles": 17.2,
                         "drive_min": 27
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20235,7 +20941,10 @@
                         "road_miles": 21.0,
                         "drive_min": 29
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20265,7 +20974,10 @@
                         "road_miles": 25.7,
                         "drive_min": 33
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20278,8 +20990,11 @@
                 "address": "78-6831 Ali'l Drive Suite 342",
                 "latitude": 19.5767,
                 "longitude": -155.9687,
-                "zip": "96725",
-                "nearby_theaters": []
+                "zip": "96740",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20314,7 +21029,10 @@
                         "road_miles": 38.5,
                         "drive_min": 44
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20344,7 +21062,10 @@
                         "road_miles": 28.5,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20379,7 +21100,10 @@
                         "road_miles": 32.5,
                         "drive_min": 35
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20409,7 +21133,10 @@
                         "road_miles": 11.3,
                         "drive_min": 20
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20444,7 +21171,10 @@
                         "road_miles": 37.2,
                         "drive_min": 42
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20457,14 +21187,17 @@
                 "address": "215 Azalea Square Blvd",
                 "latitude": 33.0374,
                 "longitude": -80.1608,
-                "zip": "28493",
+                "zip": "29483",
                 "nearby_theaters": [
                     {
                         "code": "1884",
                         "road_miles": 27.5,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20499,7 +21232,10 @@
                         "road_miles": 52.8,
                         "drive_min": 53
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20513,7 +21249,10 @@
                 "latitude": 34.1923,
                 "longitude": -79.8317,
                 "zip": "29501",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20538,7 +21277,10 @@
                         "road_miles": 25.3,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20551,8 +21293,11 @@
                 "address": "1515 W. 23rd St.",
                 "latitude": 30.1894,
                 "longitude": -85.6848,
-                "zip": "32405",
-                "nearby_theaters": []
+                "zip": "32406",
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20565,7 +21310,7 @@
                 "address": "3702 W. Newberry Road",
                 "latitude": 29.6539,
                 "longitude": -82.3801,
-                "zip": "32669",
+                "zip": "32607",
                 "nearby_theaters": [
                     {
                         "code": "0219",
@@ -20587,7 +21332,10 @@
                         "road_miles": 43.8,
                         "drive_min": 43
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20672,7 +21420,10 @@
                         "road_miles": 51.1,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20757,7 +21508,10 @@
                         "road_miles": 52.1,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20802,7 +21556,10 @@
                         "road_miles": 66.4,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20887,7 +21644,10 @@
                         "road_miles": 54.0,
                         "drive_min": 62
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -20908,16 +21668,6 @@
                         "drive_min": 18
                     },
                     {
-                        "code": "0280",
-                        "road_miles": 20.5,
-                        "drive_min": 24
-                    },
-                    {
-                        "code": "0161",
-                        "road_miles": 23.2,
-                        "drive_min": 25
-                    },
-                    {
                         "code": "0718",
                         "road_miles": 21.7,
                         "drive_min": 26
@@ -20932,7 +21682,10 @@
                         "road_miles": 44.2,
                         "drive_min": 47
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -20957,7 +21710,10 @@
                         "road_miles": 53.3,
                         "drive_min": 62
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -20972,11 +21728,6 @@
                 "longitude": -76.739,
                 "zip": "23188",
                 "nearby_theaters": [
-                    {
-                        "code": "0161",
-                        "road_miles": 22.5,
-                        "drive_min": 26
-                    },
                     {
                         "code": "1866",
                         "road_miles": 44.2,
@@ -20998,11 +21749,6 @@
                         "drive_min": 59
                     },
                     {
-                        "code": "0280",
-                        "road_miles": 55.1,
-                        "drive_min": 60
-                    },
-                    {
                         "code": "1902",
                         "road_miles": 45.8,
                         "drive_min": 65
@@ -21012,7 +21758,10 @@
                         "road_miles": 66.4,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21107,7 +21856,10 @@
                         "road_miles": 71.9,
                         "drive_min": 76
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21127,7 +21879,10 @@
                         "road_miles": 9.2,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21141,7 +21896,10 @@
                 "latitude": 34.228,
                 "longitude": -77.83,
                 "zip": "28405",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21171,7 +21929,10 @@
                         "road_miles": 14.9,
                         "drive_min": 20
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21191,7 +21952,10 @@
                         "road_miles": 9.2,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21221,7 +21985,10 @@
                         "road_miles": 28.5,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21241,7 +22008,10 @@
                         "road_miles": 27.5,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21281,7 +22051,10 @@
                         "road_miles": 49.1,
                         "drive_min": 55
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21316,7 +22089,10 @@
                         "road_miles": 38.5,
                         "drive_min": 44
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21341,7 +22117,10 @@
                         "road_miles": 20.8,
                         "drive_min": 24
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21381,7 +22160,10 @@
                         "road_miles": 55.6,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21411,7 +22193,10 @@
                         "road_miles": 47.9,
                         "drive_min": 60
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21446,7 +22231,10 @@
                         "road_miles": 34.0,
                         "drive_min": 39
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21491,7 +22279,10 @@
                         "road_miles": 51.9,
                         "drive_min": 56
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21521,7 +22312,10 @@
                         "road_miles": 72.8,
                         "drive_min": 71
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21546,7 +22340,10 @@
                         "road_miles": 45.1,
                         "drive_min": 51
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21591,7 +22388,10 @@
                         "road_miles": 45.8,
                         "drive_min": 65
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21626,7 +22426,10 @@
                         "road_miles": 64.0,
                         "drive_min": 75
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21716,7 +22519,10 @@
                         "road_miles": 64.3,
                         "drive_min": 69
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21771,7 +22577,10 @@
                         "road_miles": 70.6,
                         "drive_min": 80
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -21806,7 +22615,10 @@
                         "road_miles": 41.5,
                         "drive_min": 58
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 1
             }
         },
         {
@@ -21961,7 +22773,10 @@
                         "road_miles": 64.7,
                         "drive_min": 74
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22066,7 +22881,10 @@
                         "road_miles": 44.1,
                         "drive_min": 58
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22101,7 +22919,10 @@
                         "road_miles": 47.8,
                         "drive_min": 46
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -22151,7 +22972,10 @@
                         "road_miles": 59.2,
                         "drive_min": 63
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Central",
+                "unlimited_tier": 1
             }
         },
         {
@@ -22261,7 +23085,10 @@
                         "road_miles": 51.8,
                         "drive_min": 70
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -22356,7 +23183,10 @@
                         "road_miles": 79.2,
                         "drive_min": 85
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22401,7 +23231,10 @@
                         "road_miles": 32.5,
                         "drive_min": 34
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22496,7 +23329,10 @@
                         "road_miles": 73.4,
                         "drive_min": 79
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22536,7 +23372,10 @@
                         "road_miles": 30.8,
                         "drive_min": 32
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22626,7 +23465,10 @@
                         "road_miles": 26.5,
                         "drive_min": 92
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22671,7 +23513,10 @@
                         "road_miles": 39.8,
                         "drive_min": 57
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22761,7 +23606,10 @@
                         "road_miles": 89.3,
                         "drive_min": 97
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22806,7 +23654,10 @@
                         "road_miles": 55.5,
                         "drive_min": 59
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22820,7 +23671,10 @@
                 "latitude": 43.9756,
                 "longitude": -75.9005,
                 "zip": "13601",
-                "nearby_theaters": []
+                "nearby_theaters": [],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22850,7 +23704,10 @@
                         "road_miles": 25.7,
                         "drive_min": 33
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Hawaii",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22940,7 +23797,10 @@
                         "road_miles": 21.2,
                         "drive_min": 85
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Pacific",
+                "unlimited_tier": 2
             }
         },
         {
@@ -22965,7 +23825,10 @@
                         "road_miles": 61.8,
                         "drive_min": 61
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 3
             }
         },
         {
@@ -22990,7 +23853,10 @@
                         "road_miles": 58.1,
                         "drive_min": 54
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Mountain",
+                "unlimited_tier": 1
             }
         },
         {
@@ -23010,7 +23876,10 @@
                         "road_miles": 8.6,
                         "drive_min": 18
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Alaska",
+                "unlimited_tier": 2
             }
         },
         {
@@ -23030,7 +23899,10 @@
                         "road_miles": 53.3,
                         "drive_min": 62
                     }
-                ]
+                ],
+                "phone_number": "(844) 462-7342",
+                "timezone": "US/Eastern",
+                "unlimited_tier": 2
             }
         }
     ]
