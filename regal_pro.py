@@ -1,15 +1,19 @@
-# v1.4 RC
+# v1.5 RC
 import streamlit as st
 import json
 import math
 import pgeocode
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
 import time
 import os
 import sys
 from datetime import datetime, timedelta, timezone, time as dt_time
 from curl_cffi import requests as c_requests
+from streamlit_js_eval import get_geolocation, set_cookie, get_cookie
 
 IS_CLOUD = "STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION" in os.environ
+debug_mode = None
 
 # --- Resource Path Resolution for Desktop Executable ---
 def get_resource_path(relative_path):
@@ -20,7 +24,7 @@ def get_resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # --- Page Configuration ---
-st.set_page_config(page_title="Regal Pro", layout="wide")
+st.set_page_config(page_title="Regal Pro", layout="wide", page_icon="🎬")
 
 # --- CSS for Navigation ---
 st.markdown("""
@@ -96,6 +100,55 @@ def is_dst(dt):
     dst_end = datetime(year, 11, 1) + timedelta(days=(6 - datetime(year, 11, 1).weekday()))
     return dst_start <= dt.replace(tzinfo=None) < dst_end
 
+def get_location_cookie():
+    with st.container(height=1, border=False):
+        st.html("<style>div[height='1']{display:none;}</style>")
+        location_cookie = get_cookie('RegalProUserGeoLocation')
+        latitude = get_cookie('RegalProUserGeoLatitude')
+        longitude = get_cookie('RegalProUserGeoLongitude')
+        zip_code = get_cookie('RegalProUserZipCode')
+
+    if location_cookie and latitude is not None and longitude is not None:
+        try:
+            with st.container(height=1, border=False):
+                st.html("<style>div[height='1']{display:none;}</style>")
+                set_cookie('RegalProUserGeoLocation', True, 400)
+                set_cookie('RegalProUserGeoLatitude', latitude, 400)
+                set_cookie('RegalProUserGeoLongitude', longitude, 400)
+                set_cookie('RegalProUserZipCode', zip_code, 400)
+            
+            return location_cookie, float(latitude), float(longitude), zip_code
+        except (ValueError, TypeError):
+            return None, None, None, None
+    else:
+        location = get_geolocation()
+        if location and location.get('coords'):
+            lat = location['coords']['latitude']
+            lon = location['coords']['longitude']
+            z_code = get_zip_code_from_lat_lon(lat, lon)
+            
+            with st.container(height=1, border=False):
+                st.html("<style>div[height='1']{display:none;}</style>")
+                set_cookie('RegalProUserGeoLocation', True, 400)
+                set_cookie('RegalProUserGeoLatitude', lat, 400)
+                set_cookie('RegalProUserGeoLongitude', lon, 400)
+                set_cookie('RegalProUserZipCode', z_code, 400)
+            return None, None, None, None
+        else:
+            return None, None, None, None
+
+def get_zip_code_from_lat_lon(latitude, longitude):
+    geolocator = Nominatim(user_agent="regal_pro_v1.4")
+    geocode = RateLimiter(geolocator.reverse, min_delay_seconds=1)
+    coordinates = (latitude, longitude)
+
+    location = geocode(coordinates)
+
+    if location and 'address' in location.raw and 'postcode' in location.raw['address']:
+        return location.raw['address']['postcode']
+    else:
+        return None
+
 def get_offset_from_lon(lon, state=None, target_date=None):
     if state in ['OH', 'WV', 'VA', 'NC', 'SC', 'GA', 'PA', 'NY', 'NJ', 'MD', 'DE', 'CT', 'RI', 'MA', 'VT', 'NH', 'ME', 'IN']: 
         base_offset = -5
@@ -160,6 +213,7 @@ def fetch_data(api_url, path_name, max_retries=3):
         if debug_mode:
             with st.expander("🛠️ Outgoing Request Log", expanded=False):
                 st.json({
+                    "API_URL": api_url,
                     "API_Headers": api_headers,
                     "Proxy": proxies["https"] if proxies else "None"
                 })
@@ -194,30 +248,23 @@ def fetch_data(api_url, path_name, max_retries=3):
 
 def flatten_data(data):
     flat_list = []
+    
+    if "global_movie_catalog" not in st.session_state:
+        st.session_state.global_movie_catalog = {}
+
+    for m in data.get('movies', []):
+        m_code = m.get('MasterMovieCode')
+        if m_code:
+            st.session_state.global_movie_catalog[m_code] = {
+                'title': m.get('Title', 'Unknown'),
+                'rating': m.get('Rating', 'NR'), 
+                'duration': int(m.get('Duration', '0'))
+            }
+    
     raw_attrs_list = data.get('attributes', [])
     attr_map = {a.get('Acronym', '').strip(): a.get('ShortName', '').strip() 
                 for a in raw_attrs_list if a.get('Acronym')}
 
-    movie_meta = {}
-    for m in data.get('movies', []):
-        open_date_raw = m.get('RegalOpeningDate')
-        dt_obj = datetime(2099, 12, 31) 
-        formatted_date = "TBD"
-        
-        if open_date_raw:
-            try:
-                dt_obj = datetime.strptime(open_date_raw[:10], "%Y-%m-%d")
-                formatted_date = dt_obj.strftime("%b %d, %Y")
-            except: pass
-
-        movie_meta[m['MasterMovieCode']] = {
-            'title': m.get('Title', 'Unknown'),
-            'rating': m.get('Rating', 'NR'), 
-            'duration': int(m.get('Duration', '0')),
-            'opening_date_str': formatted_date,
-            'opening_date_dt': dt_obj
-        }
-    
     shows = data.get("shows", [])
     active_movie_codes = set()
     
@@ -226,16 +273,29 @@ def flatten_data(data):
         for movie in theater_show.get("Film", []):
             m_code = movie.get('MasterMovieCode')
             active_movie_codes.add(m_code)
-            meta = movie_meta.get(m_code, {'rating': 'NR', 'duration': 0})
+            
+            meta = st.session_state.global_movie_catalog.get(m_code, {
+                'title': movie.get('Title', 'Unknown'),
+                'rating': 'NR', 
+                'duration': 0
+            })
+            
             for perf in movie.get("Performances", []):
-                show_dt = datetime.strptime(perf["CalendarShowTime"], "%Y-%m-%dT%H:%M:%S")
+                try:
+                    show_dt = datetime.strptime(perf["CalendarShowTime"], "%Y-%m-%dT%H:%M:%S")
+                except ValueError:
+                    continue
+                
                 raw_codes = perf.get("PerformanceAttributes", [])
                 expanded_names = sorted([attr_map.get(c.strip(), c) for c in raw_codes])
                 
                 flat_list.append({
                     "TheaterCode": t_code,
-                    "Title": movie['Title'], "Rating": meta['rating'], "Duration": meta['duration'],
-                    "Showtime": show_dt, "Auditorium": str(perf.get("Auditorium", "?")),
+                    "Title": meta['title'], 
+                    "Rating": meta['rating'], 
+                    "Duration": meta['duration'],
+                    "Showtime": show_dt, 
+                    "Auditorium": str(perf.get("Auditorium", "?")),
                     "ScreenType": perf.get("PerformanceGroup") or "2D",
                     "Attributes": ", ".join(expanded_names),
                     "raw_attrs": set(expanded_names),
@@ -246,28 +306,37 @@ def flatten_data(data):
     for fs in data.get("futureShows", []):
         m_code = fs.get('hoCode')
         formatted_dates = []
-        
         for d_entry in fs.get('dates', []):
             raw_date = d_entry.get('date')
             if raw_date:
                 try:
                     dt_obj = datetime.strptime(raw_date[:10], "%m-%d-%Y")
                     formatted_dates.append(dt_obj.strftime("%b %d"))
-                except:
+                except ValueError:
                     formatted_dates.append(raw_date)
-        
         future_data_map[m_code] = formatted_dates
     
     future_movies = []
-    for code, meta in movie_meta.items():
+    available_codes = set(m.get('MasterMovieCode') for m in data.get('movies', []))
+    for code in available_codes:
         if code not in active_movie_codes:
-            meta['scheduled_dates'] = future_data_map.get(code, [])
-            if meta['scheduled_dates']:
-                future_movies.append(meta)
+            meta = st.session_state.global_movie_catalog.get(code, {})
+            if meta:
+                meta_copy = meta.copy()
+                meta_copy['scheduled_dates'] = future_data_map.get(code, [])
+                if meta_copy['scheduled_dates']:
+                    future_movies.append(meta_copy)
     
-    future_movies.sort(key=lambda x: x['opening_date_dt'])
+    return flat_list, st.session_state.global_movie_catalog, attr_map, future_movies
 
-    return flat_list, movie_meta, attr_map, future_movies
+def check_metadata_gaps(flat_list):
+    gaps = {}
+    for s in flat_list:
+        if s['Duration'] == 0:
+            # We only need to fetch from ONE theater that has this movie
+            if s['master_code'] not in gaps:
+                gaps[s['master_code']] = s['TheaterCode']
+    return gaps
 
 def get_attr_diff(screening_attrs, common_attrs):
     s_set = set([a.strip() for a in screening_attrs.split(",") if a.strip()])
@@ -376,51 +445,78 @@ def get_conflict_report(path, missing_titles, all_screenings, p):
     return conflicts
 
 # --- Main App ---
+if "global_movie_catalog" not in st.session_state:
+    st.session_state.global_movie_catalog = {}
 
 st.title("🎬 Regal Pro")
 theaters = load_theaters()
-url_t_code = st.query_params.get("theater")
 
-st.sidebar.header("📍 Find Theater")
+if "init_complete" not in st.session_state:
+    url_t_code = st.query_params.get("theater")
+    st.session_state.search_mode_pref = "Theater Code" if url_t_code else "Zip Code"
+    st.session_state.init_complete = True
+    st.session_state.initial_url_code = url_t_code
+else:
+    url_t_code = None
 
-search_mode = st.sidebar.selectbox("Search By", ["Zip Code", "Theater Name", "Address/City", "Theater Code"])
+location, latitude,longitude, default_zip_code = get_location_cookie()
 
 results = []
 search_performed = False
 
-if search_mode == "Zip Code":
-    zip_in = st.sidebar.text_input("Zip Code", placeholder="46201")
+st.sidebar.header("📍 Find Theater")
+
+search_mode = st.sidebar.selectbox(
+    "Search By", 
+    ["Zip Code", "Theater Name", "Address/City", "Theater Code"],
+    index=["Zip Code", "Theater Name", "Address/City", "Theater Code"].index(st.session_state.search_mode_pref),
+    key="current_search_mode" # Unique key to prevent reset
+)
+
+if search_mode == "Theater Code":
+    val = st.session_state.get('initial_url_code', "")
+    code_in = st.sidebar.text_input("Theater Code", value=val)
+    
+    if "initial_url_code" in st.session_state and code_in != st.session_state.initial_url_code:
+        del st.session_state.initial_url_code
+
+    if code_in:
+        search_performed = True
+        match = next((t for t in theaters if t['item']['theatre_code'] == code_in), None)
+        if match:
+            results = [match]
+            if 'nearby_theaters' in match['item']:
+                nearby_codes = [n['code'] for n in match['item']['nearby_theaters']]
+                results.extend([t for t in theaters if t['item']['theatre_code'] in nearby_codes])
+elif search_mode == "Zip Code":
+    zip_in = st.sidebar.text_input("Zip Code", placeholder="46201", value=default_zip_code)
     radius_in = st.sidebar.slider("Radius (miles)", 5, 200, 50)
+    
     if zip_in:
         search_performed = True
+        results = []
         nomi = pgeocode.Nominatim('us')
         z_data = nomi.query_postal_code(zip_in)
-
         if not math.isnan(z_data['latitude']):
-            new_offset = get_offset_from_lon(z_data['longitude'],
-                                             state=z_data.get('state_code'))
-            st.session_state.auto_tz_offset = new_offset
             for t in theaters:
                 d = calculate_haversine_distance(z_data['latitude'], z_data['longitude'], t['item']['latitude'], t['item']['longitude'])
                 if d <= radius_in: results.append((t, d))
             results.sort(key=lambda x: x[1])
-
+    elif location and not math.isnan(latitude):
+        for t in theaters:
+            d = calculate_haversine_distance(latitude, longitude, t['item']['latitude'], t['item']['longitude'])
+            if d <= 50: results.append((t, d))
+        results.sort(key=lambda x: x[1])
 elif search_mode == "Theater Name":
     name_in = st.sidebar.text_input("Theater Name")
     if name_in: search_performed = True; results = [t for t in theaters if name_in.lower() in t['item']['name'].lower()]
 elif search_mode == "Address/City":
     addr_in = st.sidebar.text_input("Address, City, or State")
     if addr_in: search_performed = True; results = [t for t in theaters if any(addr_in.lower() in t['item'].get(f, '').lower() for f in ['address', 'city', 'state'])]
-elif search_mode == "Theater Code":
-    code_in = st.sidebar.text_input("Theater Code")
-    if code_in: search_performed = True; results = [t for t in theaters if code_in == t['item']['theatre_code']]
 
 if search_performed and not results: st.sidebar.warning("No theaters found matching your criteria.")
 
 selected_theater = None
-if url_t_code and not results:
-    match = next((t for t in theaters if t['item']['theatre_code'] == url_t_code), None)
-    if match: results = [match]
 
 if results:
     opts = {f"{r[0]['item']['name'] if isinstance(r, tuple) else r['item']['name']} - {r[0]['item']['city'] if isinstance(r, tuple) else r['item']['city']}": (r[0] if isinstance(r, tuple) else r) for r in results}    
@@ -455,62 +551,88 @@ if selected_theater:
                                          target_date=datetime.combine(q_date, dt_time(0,0)))
         st.session_state.auto_tz_offset = new_offset
 
-    with st.sidebar.expander("⚙️ Advanced Settings", expanded=False):
-        st.write("🕒 Timezone Settings")
-        local_now = datetime.now()
-        utc_now = datetime.now(timezone.utc).replace(tzinfo=None)
-        system_offset = round((local_now - utc_now).total_seconds() / 3600)
-        default_offset = st.session_state.get('auto_tz_offset', system_offset)
-        tz_offset = st.number_input("Selected Location Offset from UTC", value=int(default_offset), step=1)
-        current_local_time = (datetime.now(timezone.utc) + timedelta(hours=tz_offset)).replace(tzinfo=None)
-        st.write(f"Local Time for Selected Location: **{current_local_time.strftime('%I:%M %p')}**")
-        st.divider()
-        if st.button("🔄 Force Refresh"): st.session_state.last_fetch_key = None
-        print_mode = st.checkbox("🖨️ Print View")
-        debug_mode = st.checkbox("🐞 Debug Mode", value=False, help="Show raw API responses for troubleshooting.")
-        status_label, ext_ip = get_proxy_health()
-        
-        if status_label == "Active":
-            st.success(f"🌐 **Proxy:** {status_label}")
-            st.caption(f"Masked IP: `{ext_ip.split(',')[0]}`")
-        elif status_label == "Local Bypass":
-            st.info(f"🏠 **Mode:** {status_label}")
-            st.caption("Direct Connection Active")
-        else:
-            st.error(f"⚠️ **Proxy:** {status_label}")
-            st.caption("Check Streamlit Secrets or Decodo Balance")
-        
-        st.page_link("https://github.com/riyazusman/regal-pro", label="Source on Github")
-    st.sidebar.link_button("Report Bug / Request Feature","https://docs.google.com/forms/d/e/1FAIpQLSce6X3DtCwDJZUjf_Cc4IbJLA7q0Nvk_Grw7lOgyqLtxYIYPQ/viewform?usp=dialog")
-    st.sidebar.link_button("Buy Me a Coffee","https://buymeacoffee.com/riyazusman")
-    
+        with st.sidebar.expander("⚙️ Advanced Settings", expanded=False):
+            st.write("🕒 Timezone Settings")
+            local_now = datetime.now()
+            utc_now = datetime.now(timezone.utc).replace(tzinfo=None)
+            system_offset = round((local_now - utc_now).total_seconds() / 3600)
+            default_offset = st.session_state.get('auto_tz_offset', system_offset)
+            tz_offset = st.number_input("Selected Location Offset from UTC", value=int(default_offset), step=1)
+            current_local_time = (datetime.now(timezone.utc) + timedelta(hours=tz_offset)).replace(tzinfo=None)
+            st.write(f"Local Time for Selected Location: **{current_local_time.strftime('%I:%M %p')}**")
+            st.divider()
+            if st.button("🔄 Force Refresh"): st.session_state.last_fetch_key = None
+            print_mode = st.checkbox("🖨️ Print View")
+            debug_mode = st.checkbox("🐞 Debug Mode", value=False, help="Show raw API responses for troubleshooting.")
+            status_label, ext_ip = get_proxy_health()
+            
+            if status_label == "Active":
+                st.success(f"🌐 **Proxy:** {status_label}")
+                st.caption(f"Masked IP: `{ext_ip.split(',')[0]}`")
+            elif status_label == "Local Bypass":
+                st.info(f"🏠 **Mode:** {status_label}")
+                st.caption("Direct Connection Active")
+            else:
+                st.error(f"⚠️ **Proxy:** {status_label}")
+                st.caption("Check Streamlit Secrets or Decodo Balance")
+            
+            st.page_link("https://github.com/riyazusman/regal-pro", label="Source on Github")
+
     f_date = q_date.strftime('%m-%d-%Y')
 
     needs_fetch = True
     if 'raw_data' in st.session_state and st.session_state.get('last_fetch_date') == f_date:
-        # Check if current theater is in the already-fetched cluster
         cached_codes = [s.get('TheatreCode') for s in st.session_state.raw_data.get('shows', [])]
         if t_item['theatre_code'] in cached_codes:
             needs_fetch = False
 
     if needs_fetch:
         with st.spinner("Fetching Cluster..."):
-            target_codes = [t_item['theatre_code']]
+            primary_theater_code = t_item['theatre_code']
+            target_codes = [primary_theater_code]
             if 'nearby_theaters' in t_item:
                 target_codes.extend([n['code'] for n in t_item['nearby_theaters']])
             
             api_url = f"https://www.regmovies.com/api/getShowtimes?theatres={','.join(target_codes)}&date={f_date}"
             data = fetch_data(api_url, t_item['path_name'])
+            
             if data:
+                all_flat_data, _, _, _ = flatten_data(data)
+                
+                gaps = check_metadata_gaps(all_flat_data)
+                
+                if gaps:
+                    anchor_theaters = list(set(gaps.values()))
+                    st.toast(f"Filling metadata gaps from {len(anchor_theaters)} additional theaters...")
+                    
+                    for anchor in anchor_theaters:
+                        rotated_codes = [anchor] + [c for c in target_codes if c != anchor]
+                        sweep_url = f"https://www.regmovies.com/api/getShowtimes?theatres={','.join(rotated_codes)}&date={f_date}"
+                        sweep_data = fetch_data(sweep_url, t_item['path_name'])
+                        
+                        if sweep_data:
+                            flatten_data(sweep_data)
+                
                 st.session_state.raw_data = data
                 st.session_state.last_fetch_date = f_date
 
-if 'raw_data' in st.session_state:
+st.sidebar.link_button("Report Bug / Request Feature","https://docs.google.com/forms/d/e/1FAIpQLSce6X3DtCwDJZUjf_Cc4IbJLA7q0Nvk_Grw7lOgyqLtxYIYPQ/viewform?usp=dialog")
+st.sidebar.link_button("Buy Me a Coffee","https://buymeacoffee.com/riyazusman")
+
+if selected_theater and 'raw_data' in st.session_state:
     if debug_mode:
         with st.expander("🛠️ Raw API Debug Output", expanded=False):
             st.json(st.session_state.raw_data)
 
     all_flat_data, movie_meta, attr_map, future_movies = flatten_data(st.session_state.raw_data)
+
+    cluster_theaters = {t_item['theatre_code']: t_item['name']}
+    master_name_map = {t['item']['theatre_code']: t['item']['name'] for t in theaters}
+    if 'nearby_theaters' in t_item:
+        for nt in t_item['nearby_theaters']:
+            n_code = nt['code']
+            n_name = master_name_map.get(n_code, nt.get('name', f"Theater {n_code}"))
+            cluster_theaters[n_code] = n_name
         
     flat_data = [s for s in all_flat_data if s['TheaterCode'] == t_item['theatre_code']]
         
@@ -529,108 +651,189 @@ if 'raw_data' in st.session_state:
         attr_map = st.session_state.attr_map
         future_movies = st.session_state.future_movies
 
-    nav_tab = st.radio("Navigation", ["🔎 Theater Explorer", "🎬 Movie Explorer", "🗓️ Smart Scheduler"], 
-                       horizontal=True, label_visibility="collapsed")
+    t_key = t_item['theatre_code']
+    nav_key = f"nav_tab_{t_key}"
+
+    tabs_list = ["🔎 Theater Explorer", "🎬 Movie Explorer", "🗓️ Smart Scheduler"]
+    default_idx = 0
+    if "nav_redirect" in st.session_state:
+        # Force the widget's session_state key to match the redirect
+        st.session_state[nav_key] = st.session_state.nav_redirect
+        # Clear the flag so it doesn't stay locked in subsequent runs
+        del st.session_state.nav_redirect
+
+    nav_tab = st.radio(
+            "Navigation", 
+            ["🔎 Theater Explorer", "🎬 Movie Explorer", "🗓️ Smart Scheduler"], 
+            horizontal=True, 
+            label_visibility="collapsed",
+            key=nav_key
+        )
 
     if nav_tab == "🔎 Theater Explorer":
         if print_mode: st.markdown("<style>[data-testid='stSidebar'], [data-testid='stHeader'] {display: none;} .stExpander {border: none !important;}</style>", unsafe_allow_html=True)
         st.subheader("🔎 Theater Explorer")
         st.info(f"Viewing: **{t_item['name']}** on **{q_date.strftime('%A, %b %d')}**")
-        
-        with st.expander("🔍 Filters & Sorting", expanded=not print_mode):
-            c1, c2, c3, c4 = st.columns(4)
-            with c1:
-                f_type = st.multiselect("Screen Type", options=sorted(list(set(s['ScreenType'] for s in flat_data))), placeholder="All")
-                f_rating = st.multiselect("Rating", options=sorted(list(set(s['Rating'] for s in flat_data))), placeholder="All")
-            with c2:
-                f_audi = st.multiselect("Auditorium", options=sorted(list(set(s['Auditorium'] for s in flat_data)), key=lambda x: int(x) if x.isdigit() else 999), placeholder="All")
-                current_st = set(f_type) if f_type else set(s['ScreenType'] for s in flat_data)
-                all_expanded_attrs = set(a for s in flat_data for a in s['raw_attrs'])
-                deduped_attrs = sorted([a for a in all_expanded_attrs if a not in current_st])
-                f_attr = st.multiselect("Additional Filters", options=deduped_attrs, placeholder="All")
-            with c3:
-                t_ranges = {"8AM - 12N": (8, 12), "12N - 4PM": (12, 16), "4PM - 8PM": (16, 20), "8PM - 12M": (20, 24)}
-                f_times = st.multiselect("Time Window", options=list(t_ranges.keys()), placeholder="All")
-                f_avail = st.checkbox("Hide past shows", value=True)
-            with c4:
-                sort_by = st.selectbox("Sort By", ["Movie Title", "Showtime", "Auditorium"])
-                view_mode = st.selectbox("View Mode", ["Group by Movie", "Group by Auditorium", "Full Schedule"])
 
-        filtered = [s for s in flat_data if (
-            not f_type or s['ScreenType'] in f_type) and 
-            (not f_rating or s['Rating'] in f_rating) and 
-            (not f_audi or s['Auditorium'] in f_audi) and 
-            (not f_attr or set(f_attr).issubset(s['raw_attrs'])) and 
-            (not f_times or any(t_ranges[t][0] <= s['Showtime'].hour < t_ranges[t][1] for t in f_times)) and 
-            (not f_avail or (s['Showtime'] > current_local_time if q_date == current_local_time.date() else True))]
+        tab_now, tab_nearby, tab_upcoming = st.tabs(["🍿 Now Playing", "🚗 Playing Nearby", "📅 Upcoming"])
         
-        if sort_by == "Movie Title": filtered.sort(key=lambda x: (x['Title'], x['Showtime']))
-        elif sort_by == "Showtime": filtered.sort(key=lambda x: (x['Showtime'], x['Title']))
-        elif sort_by == "Auditorium": filtered.sort(key=lambda x: (int(x['Auditorium']) if x['Auditorium'].isdigit() else 999, x['Showtime']))
-        
-        st.write(f"Showing **{len(set(s['Title'] for s in filtered))}** movies and **{len(filtered)}** screenings.")
+        with tab_now:
+            with st.expander("🔍 Filters & Sorting", expanded=not print_mode):
+                c1, c2, c3, c4 = st.columns(4)
+                with c1:
+                    f_type = st.multiselect("Screen Type", 
+                                            options=sorted(list(set(s['ScreenType'] for s in flat_data))), 
+                                            placeholder="All",
+                                            key=f"f_type_{t_key}") # Contextual Key
+                    f_rating = st.multiselect("Rating", 
+                                              options=sorted(list(set(s['Rating'] for s in flat_data))), 
+                                              placeholder="All",
+                                              key=f"f_rating_{t_key}")
+                with c2:
+                    f_audi = st.multiselect("Auditorium", 
+                                            options=sorted(list(set(s['Auditorium'] for s in flat_data)), key=lambda x: int(x) if x.isdigit() else 999), 
+                                            placeholder="All",
+                                            key=f"f_audi_{t_key}")
+                    
+                    current_st = set(f_type) if f_type else set(s['ScreenType'] for s in flat_data)
+                    all_expanded_attrs = set(a for s in flat_data for a in s['raw_attrs'])
+                    deduped_attrs = sorted([a for a in all_expanded_attrs if a not in current_st])
+                    
+                    f_attr = st.multiselect("Additional Filters", 
+                                            options=deduped_attrs, 
+                                            placeholder="All",
+                                            key=f"f_attr_{t_key}")
+                with c3:
+                    t_ranges = {"8AM - 12N": (8, 12), "12N - 4PM": (12, 16), "4PM - 8PM": (16, 20), "8PM - 12M": (20, 24)}
+                    f_times = st.multiselect("Time Window", 
+                                             options=list(t_ranges.keys()), 
+                                             placeholder="All",
+                                             key=f"f_times_{t_key}")
+                    f_avail = st.checkbox("Hide past shows", value=True, key=f"f_avail_{t_key}")
+                with c4:
+                    sort_by = st.selectbox("Sort By", 
+                                           ["Movie Title", "Showtime", "Auditorium"],
+                                           key=f"sort_by_{t_key}")
+                    view_mode = st.selectbox("View Mode", 
+                                             ["Group by Movie", "Group by Auditorium", "Full Schedule"],
+                                             key=f"view_mode_{t_key}")
+                    
+            filtered = [s for s in flat_data if (
+                not f_type or s['ScreenType'] in f_type) and 
+                (not f_rating or s['Rating'] in f_rating) and 
+                (not f_audi or s['Auditorium'] in f_audi) and 
+                (not f_attr or set(f_attr).issubset(s['raw_attrs'])) and 
+                (not f_times or any(t_ranges[t][0] <= s['Showtime'].hour < t_ranges[t][1] for t in f_times)) and 
+                (not f_avail or (s['Showtime'] > current_local_time if q_date == current_local_time.date() else True))]
+            
+            if sort_by == "Movie Title": filtered.sort(key=lambda x: (x['Title'], x['Showtime']))
+            elif sort_by == "Showtime": filtered.sort(key=lambda x: (x['Showtime'], x['Title']))
+            elif sort_by == "Auditorium": filtered.sort(key=lambda x: (int(x['Auditorium']) if x['Auditorium'].isdigit() else 999, x['Showtime']))
+            
+            st.write(f"Showing **{len(set(s['Title'] for s in filtered))}** movies and **{len(filtered)}** screenings.")
 
-        if view_mode == "Full Schedule":
-            for s in filtered:
-                with st.container(border=True):
-                    col_t, col_info = st.columns([1.3, 5])
-                    is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
-                    t_str = f"<span style=\"text-decoration: line-through;\">{s['Showtime'].strftime('%I:%M %p')}</span>" if is_past else f"{s['Showtime'].strftime('%I:%M %p')}"
-                    d_str = f"~~{s['Title']}~~" if is_past else s['Title']
-                    col_t.markdown(f"""<div style="line-height: 1;"><p style="color: grey; font-size: 0.8rem; margin-bottom: 2px; text-transform: uppercase; font-weight: bold;">{s['ScreenType']}</p><p style="font-size: 1.4rem; font-weight: 700; margin: 0; white-space: nowrap;">{t_str}</p></div>""", unsafe_allow_html=True)
-                    col_info.markdown(f"### {d_str}")
-                    col_info.markdown(f"**{s['Rating']}** | **{s['Duration']} min** | Audi {s['Auditorium']}")
-                    if s['Attributes']: st.markdown(f'<p style="color: grey; font-size: 0.85em; margin-top: -10px;">{s["Attributes"]}</p>', unsafe_allow_html=True)
-        elif view_mode == "Group by Auditorium":
-            for audi in sorted(list(set(s['Auditorium'] for s in filtered)), key=lambda x: int(x) if x.isdigit() else 999):
-                with st.expander(f"🖼️ Auditorium {audi}", expanded=True):
-                    for s in sorted([s for s in filtered if s['Auditorium'] == audi], key=lambda x: x['Showtime']):
-                        col_t, col_info = st.columns([1, 5])
-                        is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
-                        t_str = f"~~{s['Showtime'].strftime('%I:%M %p')}~~" if is_past else f"**{s['Showtime'].strftime('%I:%M %p')}**"
-                        d_str = f"~~{s['Title']} ({s['ScreenType']}) — {s['Duration']}m~~" if is_past else f"**{s['Title']}** ({s['ScreenType']}) — {s['Duration']}m"
-                        col_t.markdown(t_str)
-                        col_info.markdown(d_str)
-        else: # Group by Movie
-            for title in list(dict.fromkeys([s['Title'] for s in filtered])):
-                m_shows = [s for s in filtered if s['Title'] == title]
-                with st.expander(f"🍿 {title} ({m_shows[0]['Rating']}) — {m_shows[0]['Duration']} min", expanded=True):
-                    for mt in sorted(list(set(s['ScreenType'] for s in m_shows))):
-                        ts = [s for s in m_shows if s['ScreenType'] == mt]
-                        t_common = set.intersection(*(s['raw_attrs'] for s in ts)) if ts else set()
-                        common_attribs = sorted(t_common - {mt})
-                        st.markdown(f'<div style="background-color: #f0f2f6; padding: 4px 12px; border-radius: 4px; border-left: 4px solid #ff4b4b; margin-bottom: 6px;"><span style="font-weight: bold;">{mt}</span> <span style="color: grey; font-size: 0.85em; font-weight: normal; margin-left: 10px;">({", ".join(sorted(common_attribs)) if common_attribs else ""})</span></div>', unsafe_allow_html=True)
-
-                        row = []
-                        for s in ts:
-                            is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
-                            delta_attribs = get_attr_diff(s['Attributes'], t_common)
-                            t_str = s['Showtime'].strftime('%I:%M %p')
-                            if is_past:
-                                final_time = f"<del>{t_str}</del>" 
-                                meta_text = f"  <small style='color:grey'><del>(Audi {s['Auditorium']}) {delta_attribs}</del></small>"
-                            else:
-                                final_time = f"{t_str}" 
-                                meta_text = f"  <small style='color:grey'>(Audi {s['Auditorium']}) {delta_attribs}</small>"
-                            row.append(f"{final_time}{meta_text}")
-                        
-                        st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{' | '.join(row)}", unsafe_allow_html=True)
-        if future_movies:
-            st.markdown("---")
-            st.subheader("📅 Other Upcoming Titles")
-            st.caption("Sorted by Opening Date")
-            cols = st.columns(3)
-            for i, f_movie in enumerate(future_movies):
-                with cols[i % 3]:
+            if view_mode == "Full Schedule":
+                for s in filtered:
                     with st.container(border=True):
-                        st.markdown(f"**{f_movie['title']}** ({f_movie['rating']})")
-                        if f_movie.get('scheduled_dates'):
-                            dates_str = ", ".join(f_movie['scheduled_dates'])
-                            st.markdown(f"<small style='color:red'>Scheduled Dates: {dates_str}</small>", unsafe_allow_html=True)
-                        else:
-                            st.markdown(f"<small style='color:red'>Opening: {f_movie['opening_date_str']}</small>", unsafe_allow_html=True)
-                        st.caption(f"{f_movie['duration']} min")
+                        col_t, col_info = st.columns([1.3, 5])
+                        is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
+                        t_str = f"<span style=\"text-decoration: line-through;\">{s['Showtime'].strftime('%I:%M %p')}</span>" if is_past else f"{s['Showtime'].strftime('%I:%M %p')}"
+                        d_str = f"~~{s['Title']}~~" if is_past else s['Title']
+                        col_t.markdown(f"""<div style="line-height: 1;"><p style="color: grey; font-size: 0.8rem; margin-bottom: 2px; text-transform: uppercase; font-weight: bold;">{s['ScreenType']}</p><p style="font-size: 1.4rem; font-weight: 700; margin: 0; white-space: nowrap;">{t_str}</p></div>""", unsafe_allow_html=True)
+                        col_info.markdown(f"### {d_str}")
+                        col_info.markdown(f"**{s['Rating']}** | **{s['Duration']} min** | Audi {s['Auditorium']}")
+                        if s['Attributes']: st.markdown(f'<p style="color: grey; font-size: 0.85em; margin-top: -10px;">{s["Attributes"]}</p>', unsafe_allow_html=True)
+            elif view_mode == "Group by Auditorium":
+                for audi in sorted(list(set(s['Auditorium'] for s in filtered)), key=lambda x: int(x) if x.isdigit() else 999):
+                    with st.expander(f"🖼️ Auditorium {audi}", expanded=True):
+                        for s in sorted([s for s in filtered if s['Auditorium'] == audi], key=lambda x: x['Showtime']):
+                            col_t, col_info = st.columns([1, 5])
+                            is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
+                            t_str = f"~~{s['Showtime'].strftime('%I:%M %p')}~~" if is_past else f"**{s['Showtime'].strftime('%I:%M %p')}**"
+                            d_str = f"~~{s['Title']} ({s['ScreenType']}) — {s['Duration']}m~~" if is_past else f"**{s['Title']}** ({s['ScreenType']}) — {s['Duration']}m"
+                            col_t.markdown(t_str)
+                            col_info.markdown(d_str)
+            else: # Group by Movie
+                for title in list(dict.fromkeys([s['Title'] for s in filtered])):
+                    m_shows = [s for s in filtered if s['Title'] == title]
+                    
+                    other_t = sorted([cluster_theaters.get(tc, f"Theater {tc}") 
+                                    for tc in set(s['TheaterCode'] for s in all_flat_data if s['Title'] == title) 
+                                    if tc != t_item['theatre_code']])
+                    
+                    with st.expander(f"🍿 {title} ({m_shows[0]['Rating']}) — {m_shows[0]['Duration']} min", expanded=True):
+                        for mt in sorted(list(set(s['ScreenType'] for s in m_shows))):
+                            ts = [s for s in m_shows if s['ScreenType'] == mt]
+                            t_common = set.intersection(*(s['raw_attrs'] for s in ts)) if ts else set()
+                            common_attribs = sorted(t_common - {mt})
+                            st.markdown(f'<div style="background-color: #f0f2f6; padding: 4px 12px; border-radius: 4px; border-left: 4px solid #ff4b4b; margin-bottom: 6px;"><span style="font-weight: bold;">{mt}</span> <span style="color: grey; font-size: 0.85em; font-weight: normal; margin-left: 10px;">({", ".join(sorted(common_attribs)) if common_attribs else ""})</span></div>', unsafe_allow_html=True)
+
+                            row = []
+                            for s in ts:
+                                is_past = (q_date == current_local_time.date() and s['Showtime'] < current_local_time)
+                                delta_attribs = get_attr_diff(s['Attributes'], t_common)
+                                t_str = s['Showtime'].strftime('%I:%M %p')
+                                if is_past:
+                                    final_time = f"<del>{t_str}</del>" 
+                                    meta_text = f"  <small style='color:grey'><del>(Audi {s['Auditorium']}) {delta_attribs}</del></small>"
+                                else:
+                                    final_time = f"{t_str}" 
+                                    meta_text = f"  <small style='color:grey'>(Audi {s['Auditorium']}) {delta_attribs}</small>"
+                                row.append(f"{final_time}{meta_text}")
+                            
+                            st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{' | '.join(row)}", unsafe_allow_html=True)
                         
+                        if other_t:
+                            footer_col, link_col = st.columns([4, 1])
+                            with footer_col:
+                                st.markdown(f"<div style='font-size: 0.8rem; color: #666; padding-top: 5px;'><b>Also Playing At:</b> {', '.join(other_t)}</div>", unsafe_allow_html=True)
+                            with link_col:
+                                if st.button("📅 Full Schedule", key=f"link_{title}_{t_item['theatre_code']}", use_container_width=True):
+                                    st.session_state.nav_redirect = "🎬 Movie Explorer"
+                                    st.session_state.selected_movie = title
+                                    st.rerun()
+
+        with tab_nearby:
+            primary_titles = set(s['Title'] for s in filtered)
+            cluster_titles = set(s['Title'] for s in all_flat_data)
+            nearby_only_titles = sorted(list(cluster_titles - primary_titles))
+
+            if nearby_only_titles:
+                st.subheader("🚗 Playing Nearby")
+                st.caption("These movies are not at your selected theater but are playing at nearby locations.")
+                
+                nearby_cols = st.columns(3)
+                for idx, title in enumerate(nearby_only_titles):
+                    m_sample = next(s for s in all_flat_data if s['Title'] == title)
+                    t_hosting = set(cluster_theaters.get(s['TheaterCode'], "Unknown") 
+                                    for s in all_flat_data if s['Title'] == title)
+                    
+                    with nearby_cols[idx % 3]:
+                        with st.container(border=True):
+                            st.markdown(f"**{title}** ({m_sample['Rating']})")
+                            st.markdown(f"<small style='color:grey'>📍 {', '.join(t_hosting)}</small>", unsafe_allow_html=True)
+                            st.caption(f"{m_sample['Duration']} min")
+            else:
+                st.info("No exclusive nearby movies found for this date.")
+
+        with tab_upcoming:
+            if future_movies:
+                st.subheader("📅 Other Upcoming Titles")
+                st.caption("Sorted by Opening Date")
+                cols = st.columns(3)
+                for i, f_movie in enumerate(future_movies):
+                    with cols[i % 3]:
+                        with st.container(border=True):
+                            st.markdown(f"**{f_movie['title']}** ({f_movie['rating']})")
+                            if f_movie.get('scheduled_dates'):
+                                dates_str = ", ".join(f_movie['scheduled_dates'])
+                                st.markdown(f"<small style='color:red'>Scheduled Dates: {dates_str}</small>", unsafe_allow_html=True)
+                            else:
+                                st.markdown(f"<small style='color:red'>Opening: {f_movie['opening_date_str']}</small>", unsafe_allow_html=True)
+                            st.caption(f"{f_movie['duration']} min")
+            else:
+                st.info("No upcoming movies listed for this theater.")
+                            
     elif nav_tab == "🎬 Movie Explorer":
         st.subheader("🎬 Movie Explorer")
         
@@ -759,9 +962,7 @@ if 'raw_data' in st.session_state:
         st.subheader("🗓️ Smart Scheduler")
         st.info(f"Scheduling Cluster: **{t_item['name']}** on **{q_date.strftime('%A, %b %d')}**")
 
-        # 1. Initialize Cluster Theater Data
         cluster_theaters = {t_item['theatre_code']: t_item['name']}
-        # Primary theater is our reference (0 miles, 0 mins)
         primary_code = t_item['theatre_code']
         drive_map = {t_item['theatre_code']: {'time': 0, 'dist': 0}}
         master_name_map = {t['item']['theatre_code']: t['item']['name'] for t in theaters}
@@ -771,7 +972,6 @@ if 'raw_data' in st.session_state:
                 n_code = nt['code']
                 n_name = master_name_map.get(n_code, nt.get('name', f"Theater {n_code}"))
                 cluster_theaters[n_code] = n_name
-                # Store the travel cost to reach this theater from the primary one
                 drive_map[n_code] = {
                     'time': nt.get('drive_min', 20),
                     'dist': nt.get('road_miles', 0)
@@ -779,17 +979,44 @@ if 'raw_data' in st.session_state:
 
         with st.expander("⚙️ Parameters", expanded=True):
             r1_c1, r1_c2 = st.columns(2)
+            
             with r1_c1:
-                target_movies = st.multiselect("Select Movies (Ordered by Preference)", options=sorted(list(set(s['Title'] for s in all_flat_data))))
-            with r1_c2:
                 t_opts = list(cluster_theaters.keys())
-                target_theaters = st.multiselect("Select Theaters (Ordered by Preference)", 
-                                                 options=t_opts, 
-                                                 default=[t_item['theatre_code']],
-                                                 format_func=lambda x: cluster_theaters.get(x))                
+                target_theaters = st.multiselect(
+                    "Select Theaters (Ordered by Preference)", 
+                    options=t_opts, 
+                    default=[t_item['theatre_code']],
+                    format_func=lambda x: cluster_theaters.get(x),
+                    key=f"target_theaters_{t_item['theatre_code']}"
+                )
+            
+            with r1_c2:
+                reactive_movies = sorted(list(set(
+                    s['Title'] for s in all_flat_data 
+                    if s['TheaterCode'] in target_theaters
+                )))
+                
+                target_movies = st.multiselect(
+                    "Select Movies (Ordered by Preference)", 
+                    options=reactive_movies,
+                    key=f"target_movies_{t_item['theatre_code']}"
+                )
 
-                available_formats = sorted(list(set(s['ScreenType'] for s in all_flat_data if s['Title'] in target_movies))) if target_movies else sorted(list(set(s['ScreenType'] for s in all_flat_data)))
-                target_formats = st.multiselect("Preferred Formats", options=available_formats, placeholder="All")
+            with r1_c2:
+                available_formats = sorted(list(set(
+                    s['ScreenType'] for s in all_flat_data 
+                    if s['Title'] in target_movies and s['TheaterCode'] in target_theaters
+                ))) if target_movies else sorted(list(set(
+                    s['ScreenType'] for s in all_flat_data 
+                    if s['TheaterCode'] in target_theaters
+                )))
+                
+                target_formats = st.multiselect(
+                    "Preferred Formats", 
+                    options=available_formats, 
+                    placeholder="All",
+                    key=f"target_formats_{t_item['theatre_code']}"
+                )
             
             time_opts = ["Any Time"] + get_time_options()
             c1, c2, c3 = st.columns(3)
@@ -798,14 +1025,14 @@ if 'raw_data' in st.session_state:
                 sel_end = st.selectbox("Latest End", options=time_opts, index=0)
                 t_start = dt_time(0, 0) if sel_start == "Any Time" else datetime.strptime(sel_start, "%H:%M").time()
                 t_end = dt_time(23, 59) if sel_end == "Any Time" else datetime.strptime(sel_end, "%H:%M").time()
-            with c2: buff = st.slider("Buffer (min)", 0, 60, 15); g_cap = st.slider("Max Gap (min)", 30, 240, 120)
-            with c3: unlimited = st.checkbox("Regal Unlimited Rule (90-min Rule)"); fudge = st.checkbox("Fudge Factor (5-min overlap)")
+            with c2: buff = st.slider("Buffer (min)", 0, 60, 15, help="Set the minimum gap between two movies"); g_cap = st.slider("Max Gap (min)", 30, 240, 120, help="Set the maximum gap between two movies")
+            with c3: unlimited = st.checkbox("Regal Unlimited Rule (90-min gap)", help="Apply a minimum gap of 90-min between showtimes."); fudge = st.checkbox("Fudge Factor (5-min overlap)", help="Allow a 5 min overlap between showtimes if no better schedule possible.")
             
             c_b1, c_b2 = st.columns(2)
             with c_b1: 
                 n_movies = len(target_movies)
                 break_opts = [None] + list(range(1, n_movies)) if n_movies > 1 else [None]
-                b_after = st.selectbox("Long break after movie #", options=break_opts)
+                b_after = st.selectbox("Long break after movie #", options=break_opts, help="Set a longer break than after a specific movie.")
             with c_b2: b_val = st.slider("Break duration (min)", 30, 120, 60)
         
         if st.button("🚀 Generate Itineraries"):
