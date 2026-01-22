@@ -1310,7 +1310,7 @@ if selected_theater and current_day_data:
                     multi_itinerary = find_multi_day_itineraries(target_movies, target_days, params, drive_map)
             
                     if not multi_itinerary:
-                        st.error("Could not find a valid multi-day schedule for these movies.")
+                        st.error("Could not find a valid multi-day schedule for these movies. Consider expanding selections and broadening filters.")
                     else:
                         st.success(f"🗓️ Multi-Day Plan Generated: {len(multi_itinerary)} days used.")
                         
@@ -1388,7 +1388,15 @@ if selected_theater and current_day_data:
                                     st.write(f"❌ **{m}**: Could not fit into the selected time windows or theater constraints.")
                 
                 else:
-                    paths = find_itineraries([], target_movies, all_flat_data, params, q_date, drive_map)
+                    sched_date_str = target_days[0]
+                    sched_date_obj = datetime.strptime(sched_date_str, '%m-%d-%Y').date()
+                    day_data_raw = st.session_state.multi_day_raw.get(sched_date_str)
+                    if day_data_raw:
+                        day_flat_sched, _, _, _ = flatten_data(day_data_raw)
+                        paths = find_itineraries([], target_movies, day_flat_sched, params, sched_date_obj, drive_map)
+                    else:
+                        paths = []
+                    #paths = find_itineraries([], target_movies, all_flat_data, params, q_date, drive_map)
                 
                     if not paths: 
                         st.error("No valid schedules found. Consider expanding selections and broadening filters.")
