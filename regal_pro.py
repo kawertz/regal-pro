@@ -133,7 +133,7 @@ def get_location_cookie():
                 set_cookie('RegalProUserGeoLatitude', lat, 400)
                 set_cookie('RegalProUserGeoLongitude', lon, 400)
                 set_cookie('RegalProUserZipCode', z_code, 400)
-            return None, None, None, None
+            return True, float(lat), float(lon), z_code
         else:
             return None, None, None, None
 
