@@ -658,58 +658,64 @@ def get_conflict_report(path, missing_titles, all_screenings, p, anchor_show=Non
             m_shows = [s for s in m_shows if s['ScreenType'] in p['formats']]
         
         if not m_shows:
-            conflicts.append(f"❌ **{m_title}**: No screenings match your selected formats or preferred theaters.")
+            conflicts.append(f"❌ **{m_title}**: No screenings match your formats/theaters.")
             continue
 
-        best_reason = "No screenings fit your specified time window or buffer requirements."
         any_valid = False
+        # Store a structured 'score' for each failure to pick the most relevant one
+        failure_details = [] 
 
         for ms in m_shows:
             ms_start = ms['Showtime']
             ms_end = ms_start + timedelta(minutes=ms['Duration'])
-            reasons_for_this_show = []
+            reasons = []
 
-            # A. Check against Anchor Show
-            if anchor_show:
-                a_start = anchor_show['Showtime']
-                a_end = a_start + timedelta(minutes=anchor_show['Duration'])
-                
-                if not (ms_end <= a_start or ms_start >= a_end):
-                    reasons_for_this_show.append(f"Overlaps with your **Anchor Show** ({anchor_show['Title']}).")
-                else:
-                    # Only report buffer failure if it is actually within the buffer/travel window
-                    travel = 0
-                    if ms['TheaterCode'] != anchor_show['TheaterCode']:
-                        nb = ms['TheaterCode'] if ms['TheaterCode'] != p['primary_code'] else anchor_show['TheaterCode']
-                        travel = drive_map.get(nb, {}).get('time', 20)
-                    
-                    # Check if movie is too close BEFORE or AFTER the anchor
-                    if ms_start < a_start and ms_end + timedelta(minutes=travel + p['buffer']) > a_start:
-                        reasons_for_this_show.append("Too close before Anchor Show (buffer/travel).")
-                    elif ms_start > a_start and a_end + timedelta(minutes=travel + p['buffer']) > ms_start:
-                        reasons_for_this_show.append("Too close after Anchor Show (buffer/travel).")
-
-            # B. Check Path Limit
+            # 2. Daily Limit Check
             if len(path) >= p.get('max_per_day', 99):
-                reasons_for_this_show.append(f"Adding this would exceed your limit of {p['max_per_day']} movies.")
+                reasons.append((10, f"Exceeds daily limit of {p['max_per_day']} movies."))
 
-            # C. Check Path Overlaps
+            # 3. Anchor Check (Highest Priority)
+            if anchor_show:
+                a_start, a_end = anchor_show['Showtime'], anchor_show['Showtime'] + timedelta(minutes=anchor_show['Duration'])
+                if not (ms_end <= a_start or ms_start >= a_end):
+                    reasons.append((1, f"Overlaps with your **Anchor Show** ({anchor_show['Title']})."))
+
+            # 4. Detailed Path Linkage
             for ps in path:
                 ps_start = ps['Showtime']
                 ps_end = ps_start + timedelta(minutes=ps['Duration'])
+                
+                # Check Physical Overlap
                 if not (ms_end <= ps_start or ms_start >= ps_end):
-                    reasons_for_this_show.append(f"Overlaps with **{ps['Title']}** ({ps_start.strftime('%I:%M %p')}).")
-                    break
+                    reasons.append((1, f"Overlaps with **{ps['Title']}** ({ps_start.strftime('%I:%M %p')})."))
+                    break # Immediate exit for physical impossibility
+                
+                # Check Logical Constraints
+                if ms_start >= ps_end:
+                    gap = int((ms_start - ps_end).total_seconds() / 60)
+                    travel = 0
+                    if ms['TheaterCode'] != ps['TheaterCode']:
+                        nb = ms['TheaterCode'] if ms['TheaterCode'] != p['primary_code'] else ps['TheaterCode']
+                        travel = drive_map.get(nb, {}).get('time', 20)
+                    
+                    if gap < (travel + p['buffer']):
+                        reasons.append((2, f"Buffer violation after **{ps['Title']}** (Gap is {gap}m, needs {travel + p['buffer']}m)."))
+                    elif gap > p['gap_cap']:
+                        reasons.append((5, f"Gap after **{ps['Title']}** ({gap}m) exceeds your Max Gap ({p['gap_cap']}m)."))
 
-            if not reasons_for_this_show:
+            if not reasons:
                 any_valid = True
                 break
             else:
-                # Keep track of the most "useful" reason to show the user
-                best_reason = reasons_for_this_show[0]
+                # Store the most "urgent" reason for this specific showtime (lowest rank number)
+                reasons.sort() 
+                failure_details.append(reasons[0])
 
         if not any_valid:
-            conflicts.append(f"❌ **{m_title}**: {best_reason}")
+            # Pick the most logical reason across all showtimes (prioritizing Overlaps > Buffers > Gaps)
+            failure_details.sort()
+            detail = failure_details[0][1]
+            conflicts.append(f"❌ **{m_title}**: {detail}")
             
     return conflicts
 
