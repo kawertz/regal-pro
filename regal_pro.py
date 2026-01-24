@@ -429,6 +429,10 @@ def find_itineraries(current_path, remaining_titles, screenings, p, selected_dat
                 valid_paths.append(current_path + [s])
             else: 
                 valid_paths.extend(sub)
+    
+    if not valid_paths and current_path:
+        return [current_path]
+
     return valid_paths
 
 def find_multi_day_itineraries(target_movies, target_days, params, drive_map, anchor_show=None):
@@ -550,7 +554,9 @@ def run_anchored_search(anchor_show, target_movies, day_str, params, drive_map):
     wing_titles = [t for t in target_movies if t != anchor_show['Title']]
     
     after_paths = find_itineraries([anchor_show], wing_titles, day_flat, params, d_obj, drive_map)
-    
+    if not after_paths:
+        after_paths = [[anchor_show]]
+
     before_params = params.copy()
     before_params['max_per_day'] = total_max - 1
     latest_cutoff = anchor_show['Showtime'] - timedelta(minutes=params['buffer'])
@@ -559,24 +565,36 @@ def run_anchored_search(anchor_show, target_movies, day_str, params, drive_map):
     raw_before = find_itineraries([], wing_titles, day_flat, before_params, d_obj, drive_map)
     
     valid_before = []
-    for b_path in (raw_before if raw_before else [[]]):
-        if not b_path:
-            valid_before.append([])
-            continue
-        
-        last_m = b_path[-1]
-        last_m_end = last_m['Showtime'] + timedelta(minutes=last_m['Duration'])
-        
-        travel_time = 0
-        if last_m['TheaterCode'] != anchor_show['TheaterCode']:
-            nb_code = last_m['TheaterCode'] if last_m['TheaterCode'] != params['primary_code'] else anchor_show['TheaterCode']
-            travel_time = drive_map.get(nb_code, {}).get('time', 20)
-        
-        if last_m_end + timedelta(minutes=travel_time + params['buffer']) <= anchor_show['Showtime']:
-            valid_before.append(b_path)
+
+    if not raw_before:
+        valid_before = [[]]
+    else:
+        for b_path in raw_before:
+            if not b_path:
+                valid_before.append([])
+                continue
+            
+            last_m = b_path[-1]
+            last_m_end = last_m['Showtime'] + timedelta(minutes=last_m['Duration'])
+            
+            travel_time = 0
+            if last_m['TheaterCode'] != anchor_show['TheaterCode']:
+                nb_code = last_m['TheaterCode'] if last_m['TheaterCode'] != params['primary_code'] else anchor_show['TheaterCode']
+                travel_time = drive_map.get(nb_code, {}).get('time', 20)
+            
+            # Ensure the last movie in the morning wing ends before the anchor starts
+            if last_m_end + timedelta(minutes=travel_time + params['buffer']) <= anchor_show['Showtime']:
+                valid_before.append(b_path)
+    
+    # If the travel/buffer checks above filtered everything out, revert to [[]] 
+    # so the anchor can still be scheduled alone or with future shows.
+    if not valid_before:
+        valid_before = [[]]
             
     combined_itineraries = []
-    for b_path in valid_before:
+    search_before = valid_before if valid_before else [[]]
+
+    for b_path in search_before:
         for a_path in after_paths:
             full_path = b_path + a_path 
             if len(full_path) <= params['max_per_day']:
@@ -631,37 +649,68 @@ def calculate_path_score(path, primary_code, drive_map):
         'miles': total_miles, 'gap': total_gap, 'duration': total_duration
     }
 
-def get_conflict_report(path, missing_titles, all_screenings, p, anchor_show=None):
+def get_conflict_report(path, missing_titles, all_screenings, p, anchor_show=None, drive_map={}):
     conflicts = []
     for m_title in missing_titles:
+        # 1. Filter initial pool
         m_shows = [s for s in all_screenings if s['Title'] == m_title and s['TheaterCode'] in p['theaters']]
         if p['formats']: 
             m_shows = [s for s in m_shows if s['ScreenType'] in p['formats']]
         
-        reasons = []
-        if not m_shows: 
-            reasons.append("No screenings match your selected formats or preferred theaters.")
-        else:
-            for ms in m_shows:
-                ms_start = ms['Showtime']
-                ms_end = ms_start + timedelta(minutes=ms['Duration'])
-                
-                if anchor_show:
-                    a_start = anchor_show['Showtime']
-                    a_end = a_start + timedelta(minutes=anchor_show['Duration'])
-                    if not (ms_end <= a_start or ms_start >= a_end):
-                        reasons.append(f"The {ms_start.strftime('%I:%M %p')} show overlaps with your **Anchor Show** ({anchor_show['Title']}).")
-                        continue
+        if not m_shows:
+            conflicts.append(f"❌ **{m_title}**: No screenings match your selected formats or preferred theaters.")
+            continue
 
-                for ps in path:
-                    ps_start = ps['Showtime']
-                    ps_end = ps_start + timedelta(minutes=ps['Duration'])
-                    if not (ms_end <= ps_start or ms_start >= ps_end):
-                        reasons.append(f"The {ms_start.strftime('%I:%M %p')} show overlaps with **{ps['Title']}**.")
-                        break
-        
-        detail = reasons[0] if reasons else "No screenings fit your specified time window or buffer requirements."
-        conflicts.append(f"❌ **{m_title}**: {detail}")
+        best_reason = "No screenings fit your specified time window or buffer requirements."
+        any_valid = False
+
+        for ms in m_shows:
+            ms_start = ms['Showtime']
+            ms_end = ms_start + timedelta(minutes=ms['Duration'])
+            reasons_for_this_show = []
+
+            # A. Check against Anchor Show
+            if anchor_show:
+                a_start = anchor_show['Showtime']
+                a_end = a_start + timedelta(minutes=anchor_show['Duration'])
+                
+                if not (ms_end <= a_start or ms_start >= a_end):
+                    reasons_for_this_show.append(f"Overlaps with your **Anchor Show** ({anchor_show['Title']}).")
+                else:
+                    # Only report buffer failure if it is actually within the buffer/travel window
+                    travel = 0
+                    if ms['TheaterCode'] != anchor_show['TheaterCode']:
+                        nb = ms['TheaterCode'] if ms['TheaterCode'] != p['primary_code'] else anchor_show['TheaterCode']
+                        travel = drive_map.get(nb, {}).get('time', 20)
+                    
+                    # Check if movie is too close BEFORE or AFTER the anchor
+                    if ms_start < a_start and ms_end + timedelta(minutes=travel + p['buffer']) > a_start:
+                        reasons_for_this_show.append("Too close before Anchor Show (buffer/travel).")
+                    elif ms_start > a_start and a_end + timedelta(minutes=travel + p['buffer']) > ms_start:
+                        reasons_for_this_show.append("Too close after Anchor Show (buffer/travel).")
+
+            # B. Check Path Limit
+            if len(path) >= p.get('max_per_day', 99):
+                reasons_for_this_show.append(f"Adding this would exceed your limit of {p['max_per_day']} movies.")
+
+            # C. Check Path Overlaps
+            for ps in path:
+                ps_start = ps['Showtime']
+                ps_end = ps_start + timedelta(minutes=ps['Duration'])
+                if not (ms_end <= ps_start or ms_start >= ps_end):
+                    reasons_for_this_show.append(f"Overlaps with **{ps['Title']}** ({ps_start.strftime('%I:%M %p')}).")
+                    break
+
+            if not reasons_for_this_show:
+                any_valid = True
+                break
+            else:
+                # Keep track of the most "useful" reason to show the user
+                best_reason = reasons_for_this_show[0]
+
+        if not any_valid:
+            conflicts.append(f"❌ **{m_title}**: {best_reason}")
+            
     return conflicts
 
 def generate_batch_ics(multi_itinerary, theater_name_map):
@@ -1641,6 +1690,6 @@ if selected_theater and current_day_data:
                                 if count < len(target_movies):
                                     missing = [t for t in target_movies if t not in [s['Title'] for s in path]]
                                     with st.expander("⚠️ Why were some movies left out?"):
-                                        report = get_conflict_report(path, missing, all_flat_data, params, anchor_show)
+                                        report = get_conflict_report(path, missing, all_flat_data, params, anchor_show, drive_map)
                                         for line in report: st.write(line)
 else: st.info("Search for a theater in the sidebar to begin.")
