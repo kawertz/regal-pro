@@ -380,6 +380,8 @@ def generate_ics(path, theater_name):
     return "\n".join(ics_lines)
 
 def find_itineraries(current_path, remaining_titles, screenings, p, selected_date, drive_map):
+    if len(current_path) >= p.get('max_per_day', 99):
+        return []
     valid_paths = []
     window_start = datetime.combine(selected_date, p['start'])
     window_end = datetime.combine(selected_date, p['end'])
@@ -429,16 +431,29 @@ def find_itineraries(current_path, remaining_titles, screenings, p, selected_dat
                 valid_paths.extend(sub)
     return valid_paths
 
-def find_multi_day_itineraries(target_movies, target_days, params, drive_map):
+def find_multi_day_itineraries(target_movies, target_days, params, drive_map, anchor_show=None):
     itinerary_by_day = {}
     remaining_movies = list(target_movies)
     max_per_day = params.get('max_per_day', len(target_movies))
+
+    if anchor_show:
+        a_day_str = anchor_show['Showtime'].strftime('%m-%d-%Y')
+        
+        anchor_day_options = run_anchored_search(anchor_show, target_movies, a_day_str, params, drive_map)
+        
+        if anchor_day_options:
+            best_a_path = sorted(anchor_day_options, key=lambda x: -calculate_path_score(x, params['primary_code'], drive_map)['score'])[0]
+            itinerary_by_day[a_day_str] = best_a_path
+            
+            for s in best_a_path:
+                if s['Title'] in remaining_movies:
+                    remaining_movies.remove(s['Title'])
     
-    sorted_days = sorted(target_days, key=lambda x: datetime.strptime(x, '%m-%d-%Y'))
+    sorted_days = sorted([d for d in target_days if d != (anchor_show['Showtime'].strftime('%m-%d-%Y') if anchor_show else None)],
+                        key=lambda x: datetime.strptime(x, '%m-%d-%Y'))
     
     if params.get('strategy') == "Minimize Days":
-        for d_str in sorted_days:
-
+        for i, d_str in enumerate(sorted_days):
             if not remaining_movies: break
             
             d_obj = datetime.strptime(d_str, '%m-%d-%Y').date()
@@ -446,21 +461,48 @@ def find_multi_day_itineraries(target_movies, target_days, params, drive_map):
             if not day_data: continue
             day_flat, _, _, _ = flatten_data(day_data)
 
-            if len(remaining_movies) > 8:
-                st.warning(f'Multi-day optimization with {len(remaining_movies)} movies may take a few seconds')
-            
-            possible_paths = find_itineraries([], remaining_movies, day_flat, params, d_obj, drive_map)
-            
-            if possible_paths:
-                valid_paths = [p for p in possible_paths if len(p) <= max_per_day]
-                
-                if valid_paths:
-                    best_for_day = sorted(valid_paths, key=lambda x: (-len(x), -calculate_path_score(x, params['primary_code'], drive_map)['score']))[0]
+            # Find all valid paths for today
+            all_paths = find_itineraries([], remaining_movies, day_flat, params, d_obj, drive_map)
+            if not all_paths: continue
+
+            # Limit candidates to the top 5 most diverse/high-scoring paths to manage performance
+            candidates = sorted([p for p in all_paths if len(p) <= max_per_day], 
+                                key=lambda x: (-len(x), -calculate_path_score(x, params['primary_code'], drive_map)['score']))[:5]
+
+            best_path_for_today = None
+            max_future_yield = -1
+
+            # Simulation: If there are future days, see which candidate today yields the most movies overall
+            if i < len(sorted_days) - 1:
+                for cand in candidates:
+                    cand_titles = [s['Title'] for s in cand]
+                    mock_remaining = [m for m in remaining_movies if m not in cand_titles]
                     
-                    itinerary_by_day[d_str] = best_for_day
-                    scheduled_titles = [s['Title'] for s in best_for_day]
-                    remaining_movies = [m for m in remaining_movies if m not in scheduled_titles]
-                        
+                    # Mock the next day only for a fast "one-step look-ahead"
+                    next_day_str = sorted_days[i+1]
+                    nd_obj = datetime.strptime(next_day_str, '%m-%d-%Y').date()
+                    nd_data = st.session_state.multi_day_raw.get(next_day_str)
+                    if nd_data:
+                        nd_flat, _, _, _ = flatten_data(nd_data)
+                        next_day_paths = find_itineraries([], mock_remaining, nd_flat, params, nd_obj, drive_map)
+                        next_day_yield = max([len(p) for p in next_day_paths if len(p) <= max_per_day]) if next_day_paths else 0
+                    else:
+                        next_day_yield = 0
+                    
+                    total_yield = len(cand) + next_day_yield
+                    if total_yield > max_future_yield:
+                        max_future_yield = total_yield
+                        best_path_for_today = cand
+            else:
+                # Last day, no look-ahead needed
+                best_path_for_today = candidates[0]
+
+            if best_path_for_today:
+                itinerary_by_day[d_str] = best_path_for_today
+                for s in best_path_for_today:
+                    remaining_movies.remove(s['Title'])
+                    
+                                        
     else: # Strategy: Maximize Compactness
         global_pool = []
         for d_str in sorted_days:
@@ -486,7 +528,6 @@ def find_multi_day_itineraries(target_movies, target_days, params, drive_map):
             if not remaining_movies: break
             if entry['date'] in assigned_dates: continue
             
-            path_titles = [s['Title'] for s in entry['path']]
             needed_in_path = [s for s in entry['path'] if s['Title'] in remaining_movies]
             
             if len(needed_in_path) == len(entry['path']):
@@ -496,6 +537,75 @@ def find_multi_day_itineraries(target_movies, target_days, params, drive_map):
                     remaining_movies.remove(s['Title'])
 
     return itinerary_by_day
+
+def run_anchored_search(anchor_show, target_movies, day_str, params, drive_map):
+    day_data = st.session_state.multi_day_raw.get(day_str)
+    if not day_data:
+        return []
+    
+    day_flat, _, _, _ = flatten_data(day_data)
+    d_obj = datetime.strptime(day_str, '%m-%d-%Y').date()
+    total_max = params.get('max_per_day', 99)
+
+    wing_titles = [t for t in target_movies if t != anchor_show['Title']]
+    
+    after_paths = find_itineraries([anchor_show], wing_titles, day_flat, params, d_obj, drive_map)
+    
+    before_params = params.copy()
+    before_params['max_per_day'] = total_max - 1
+    latest_cutoff = anchor_show['Showtime'] - timedelta(minutes=params['buffer'])
+    before_params['end'] = latest_cutoff.time()
+    
+    raw_before = find_itineraries([], wing_titles, day_flat, before_params, d_obj, drive_map)
+    
+    valid_before = []
+    for b_path in (raw_before if raw_before else [[]]):
+        if not b_path:
+            valid_before.append([])
+            continue
+        
+        last_m = b_path[-1]
+        last_m_end = last_m['Showtime'] + timedelta(minutes=last_m['Duration'])
+        
+        travel_time = 0
+        if last_m['TheaterCode'] != anchor_show['TheaterCode']:
+            nb_code = last_m['TheaterCode'] if last_m['TheaterCode'] != params['primary_code'] else anchor_show['TheaterCode']
+            travel_time = drive_map.get(nb_code, {}).get('time', 20)
+        
+        if last_m_end + timedelta(minutes=travel_time + params['buffer']) <= anchor_show['Showtime']:
+            valid_before.append(b_path)
+            
+    combined_itineraries = []
+    for b_path in valid_before:
+        for a_path in after_paths:
+            full_path = b_path + a_path 
+            if len(full_path) <= params['max_per_day']:
+                titles = [s['Title'] for s in full_path]
+                if len(titles) == len(set(titles)):
+                    combined_itineraries.append(full_path)
+    return combined_itineraries
+
+    first_day = target_days[0]
+    day_flat, _, _, _ = flatten_data(first_day)
+    
+    candidates = find_itineraries([], target_movies, day_flat, params, first_day, drive_map)
+    
+    best_overall_plan = {}
+    max_total_movies = -1
+
+    for path in candidates[:5]:
+        current_plan = {first_day: path}
+        remaining = [m for m in target_movies if m not in [s['Title'] for s in path]]
+        
+        rest_of_week = find_multi_day_itineraries(remaining, target_days[1:], params, drive_map)
+        
+        total_count = len(path) + sum(len(p) for p in rest_of_week.values())
+        
+        if total_count > max_total_movies:
+            max_total_movies = total_count
+            best_overall_plan = {**current_plan, **rest_of_week}
+            
+    return best_overall_plan
 
 def calculate_path_score(path, primary_code, drive_map):
     movie_count = len(path)
@@ -521,7 +631,7 @@ def calculate_path_score(path, primary_code, drive_map):
         'miles': total_miles, 'gap': total_gap, 'duration': total_duration
     }
 
-def get_conflict_report(path, missing_titles, all_screenings, p):
+def get_conflict_report(path, missing_titles, all_screenings, p, anchor_show=None):
     conflicts = []
     for m_title in missing_titles:
         m_shows = [s for s in all_screenings if s['Title'] == m_title and s['TheaterCode'] in p['theaters']]
@@ -536,10 +646,16 @@ def get_conflict_report(path, missing_titles, all_screenings, p):
                 ms_start = ms['Showtime']
                 ms_end = ms_start + timedelta(minutes=ms['Duration'])
                 
+                if anchor_show:
+                    a_start = anchor_show['Showtime']
+                    a_end = a_start + timedelta(minutes=anchor_show['Duration'])
+                    if not (ms_end <= a_start or ms_start >= a_end):
+                        reasons.append(f"The {ms_start.strftime('%I:%M %p')} show overlaps with your **Anchor Show** ({anchor_show['Title']}).")
+                        continue
+
                 for ps in path:
                     ps_start = ps['Showtime']
                     ps_end = ps_start + timedelta(minutes=ps['Duration'])
-                    
                     if not (ms_end <= ps_start or ms_start >= ps_end):
                         reasons.append(f"The {ms_start.strftime('%I:%M %p')} show overlaps with **{ps['Title']}**.")
                         break
@@ -1212,7 +1328,7 @@ if selected_theater and current_day_data:
             
             with r1_c1:
                 target_theaters = st.multiselect(
-                    "1\. Select Theaters (Ordered by Preference)", 
+                    "1\\. Select Theaters (Ordered by Preference)", 
                     options=t_opts,
                     default=[t_item['theatre_code']],
                     format_func=lambda x: cluster_theaters.get(x),
@@ -1220,7 +1336,7 @@ if selected_theater and current_day_data:
                 )
 
                 target_days = st.multiselect(
-                    "2\. Select Dates", 
+                    "2\\. Select Dates", 
                     options=cached_dates,
                     format_func=lambda x: datetime.strptime(x, "%m-%d-%Y").strftime("%b %d"),
                     default=[f_date])
@@ -1244,7 +1360,7 @@ if selected_theater and current_day_data:
                 reactive_movies = sorted([t for t in global_reactive_titles if t])
                 
                 target_movies = st.multiselect(
-                    "3\. Select Movies (Ordered by Preference)", 
+                    "3\\. Select Movies (Ordered by Preference)", 
                     options=reactive_movies,
                     format_func=format_movie_label,
                     key=f"target_movies_{t_item['theatre_code']}"
@@ -1262,7 +1378,7 @@ if selected_theater and current_day_data:
                 )))
                 
                 target_formats = st.multiselect(
-                    "4\. Preferred Formats", 
+                    "4\\. Preferred Formats", 
                     options=available_formats, 
                     placeholder="All",
                     key=f"target_formats_{t_item['theatre_code']}"
@@ -1293,6 +1409,47 @@ if selected_theater and current_day_data:
                         options=["Minimize Days", "Maximize Compactness"],
                         help = "Minimize Days will pack your selected movies into the fewest number of trips possible. Maximize Compactness prioritizes the most efficient schedules with the shortest gaps and minimal travel, even if spread across more days.") 
 
+        # --- Anchor Show Selection ---
+        with st.container(border=True):
+            enable_anchor = st.checkbox("📍 Include a Booked (Anchor) Show", value=False)
+            anchor_show = None
+
+            if enable_anchor:
+                st.info("Lock a booked showtime into your plan. The scheduler will build your itinerary around this fixed point, which may limit other options.")
+                a_col1, a_col2, a_col3, a_col4  = st.columns(4)
+                with a_col1:
+                    # Filter based on target_theaters
+                    a_theater = st.selectbox("Anchor Theater", 
+                                             options=target_theaters, 
+                                             format_func=lambda x: cluster_theaters.get(x))
+                with a_col2:
+                    # Filter based on target_days
+                    a_day = st.selectbox("Anchor Day", 
+                                         options=target_days,
+                                         format_func=lambda x: datetime.strptime(x, "%m-%d-%Y").strftime("%b %d"))
+                with a_col3:
+                    # Pull movies available for that theater and day
+                    a_day_data = st.session_state.multi_day_raw.get(a_day)
+                    valid_anchor_titles = []
+                    if a_day_data:
+                        for ts in a_day_data.get('shows', []):
+                            if ts.get('TheatreCode') == a_theater:
+                                # Intersection of target_movies and what is playing at this specific theater
+                                theater_titles = [m.get('Title') for m in ts.get('Film', [])]
+                                valid_anchor_titles = [t for t in target_movies if t in theater_titles]
+                    a_movie = st.selectbox("Anchor Movie", options=sorted(valid_anchor_titles))
+                # Final step: Select the exact showtime
+                with a_col4:
+                    a_showtimes = []
+                    if a_day_data and a_movie:
+                        day_flat_anchor, _, _, _ = flatten_data(a_day_data)
+                        a_showtimes = [s for s in day_flat_anchor if s['Title'] == a_movie and s['TheaterCode'] == a_theater]
+                    
+                    selected_anchor = st.selectbox("Anchor Showtime", 
+                                               options=a_showtimes, 
+                                               format_func=lambda x: f"{x['Showtime'].strftime('%I:%M %p')} ({x['ScreenType']})")
+                    anchor_show = selected_anchor
+                
         if st.button("🚀 Generate Itineraries"):
             if len(target_movies) < 2:
                 st.error("Please select at least 2 movies.")
@@ -1303,11 +1460,11 @@ if selected_theater and current_day_data:
                     'long_buffer': b_val, 'formats': target_formats, 'theaters': target_theaters,
                     'primary_code': t_item['theatre_code'],
                     'strategy': strategy if len(target_days) > 1 else "Minimize Days",
-                    'max_per_day': max_per_day if len(target_days) > 1 else 1
+                    'max_per_day': max_per_day if len(target_days) > 1 else n_movies
                 }
                 
                 if len(target_days) > 1:
-                    multi_itinerary = find_multi_day_itineraries(target_movies, target_days, params, drive_map)
+                    multi_itinerary = find_multi_day_itineraries(target_movies, target_days, params, drive_map,anchor_show)
             
                     if not multi_itinerary:
                         st.error("Could not find a valid multi-day schedule for these movies. Consider expanding selections and broadening filters.")
@@ -1320,7 +1477,7 @@ if selected_theater and current_day_data:
                         scheduled_titles = [s['Title'] for p in multi_itinerary.values() for s in p]
                         unscheduled = [m for m in target_movies if m not in scheduled_titles]
 
-                        st.markdown(f"### 🏆 Global Campaign Summary")
+                        st.markdown(f"### 🏆 Schedule Summary")
                         c1, c2, c3 = st.columns(3)
                         c1.metric("Total Movies", f"{total_movies} / {len(target_movies)}")
                         c2.metric("Total Days", len(multi_itinerary))
@@ -1393,10 +1550,13 @@ if selected_theater and current_day_data:
                     day_data_raw = st.session_state.multi_day_raw.get(sched_date_str)
                     if day_data_raw:
                         day_flat_sched, _, _, _ = flatten_data(day_data_raw)
-                        paths = find_itineraries([], target_movies, day_flat_sched, params, sched_date_obj, drive_map)
+
+                        if enable_anchor and anchor_show:
+                            paths = run_anchored_search(anchor_show, target_movies, sched_date_str, params, drive_map)
+                        else:
+                            paths = find_itineraries([], target_movies, day_flat_sched, params, sched_date_obj, drive_map)
                     else:
                         paths = []
-                    #paths = find_itineraries([], target_movies, all_flat_data, params, q_date, drive_map)
                 
                     if not paths: 
                         st.error("No valid schedules found. Consider expanding selections and broadening filters.")
@@ -1481,6 +1641,6 @@ if selected_theater and current_day_data:
                                 if count < len(target_movies):
                                     missing = [t for t in target_movies if t not in [s['Title'] for s in path]]
                                     with st.expander("⚠️ Why were some movies left out?"):
-                                        report = get_conflict_report(path, missing, all_flat_data, params)
+                                        report = get_conflict_report(path, missing, all_flat_data, params, anchor_show)
                                         for line in report: st.write(line)
 else: st.info("Search for a theater in the sidebar to begin.")
