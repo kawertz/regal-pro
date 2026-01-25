@@ -30,10 +30,22 @@ st.set_page_config(page_title="Regal Pro", layout="wide", page_icon="🎬")
 st.markdown("""
     <style>
     .stRadio > div[role="radiogroup"] {
-        flex-direction: row; gap: 2rem; background-color: #f0f2f6;
-        padding: 10px 20px; border-radius: 10px; margin-bottom: 20px;
+            flex-direction: row; 
+            gap: 2rem; 
+            background-color: rgba(151, 166, 195, 0.15);
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px;
+            border: 1px solid rgba(151, 166, 195, 0.2);
     }
-    .stRadio [data-testid="stMarkdownContainer"] p { font-size: 1.1rem; font-weight: 600; }
+    .stRadio [data-testid="stMarkdownContainer"] p { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: inherit;
+    }
+    .stRadio > div[role="radiogroup"]:hover {
+        background-color: rgba(151, 166, 195, 0.25);
+        transition: background-color 0.3s ease;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -1116,7 +1128,7 @@ if selected_theater and current_day_data:
                             ts = [s for s in m_shows if s['ScreenType'] == mt]
                             t_common = set.intersection(*(s['raw_attrs'] for s in ts)) if ts else set()
                             common_attribs = sorted(t_common - {mt})
-                            st.markdown(f'<div style="background-color: #f0f2f6; padding: 4px 12px; border-radius: 4px; border-left: 4px solid #ff4b4b; margin-bottom: 6px;"><span style="font-weight: bold;">{mt}</span> <span style="color: grey; font-size: 0.85em; font-weight: normal; margin-left: 10px;">({", ".join(sorted(common_attribs)) if common_attribs else ""})</span></div>', unsafe_allow_html=True)
+                            st.markdown(f'<div style="margin-bottom: 6px;"><span style="background-color: rgba(151, 166, 195, 0.15); padding: 4px 12px; border-radius: 4px; border-left: 4px solid #ff4b4b;"><span style="font-weight: bold;">{mt}</span> <span style="color: grey; font-size: 0.85em; font-weight: normal; margin-left: 10px;">({", ".join(sorted(common_attribs)) if common_attribs else ""})</span></span></div>', unsafe_allow_html=True)
 
                             row = []
                             for s in ts:
@@ -1222,7 +1234,7 @@ if selected_theater and current_day_data:
                         with st.container(border=True):
                             st.markdown(f"**{f_movie['title']}** ({f_movie['rating']})")
                             dates_str = ", ".join(f_movie['scheduled_dates'])
-                            st.markdown(f"<small style='color:red'>Scheduled: {dates_str}</small>", unsafe_allow_html=True)
+                            st.markdown(f"<small style='color:#e67e22;'>Scheduled: {dates_str}</small>", unsafe_allow_html=True)
                             st.caption(f"⏱️ {f_movie['duration']} min")
             else:
                 st.info("No upcoming movies listed for this theater.")
@@ -1259,8 +1271,13 @@ if selected_theater and current_day_data:
                 width: 100% !important;
                 height: 40px !important;
                 border-radius: 6px !important;
-                background-color: white !important;
-                border: 1px solid #d1d5db !important;
+                background-color: rgba(151, 166, 195, 0.1) !important;
+                border: 1px solid rgba(151, 166, 195, 0.2) !important;
+                transition: all 0.2s ease-in-out !important;
+            }
+            div.stButton > button:hover {
+                background-color: rgba(151, 166, 195, 0.2) !important;
+                border-color: #ff4b4b !important;
             }
             div.stButton > button div p {
                 white-space: nowrap !important;
@@ -1268,6 +1285,7 @@ if selected_theater and current_day_data:
                 text-overflow: ellipsis !important;
                 font-size: 0.75rem !important;
                 font-weight: 600 !important;
+                color: var(--text-color) !important;
             }
             </style>
         """, unsafe_allow_html=True)
